@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danone: The Yogurt Empire — A Marketing Deep-Dive</title>
+<style>
+  /* ── Reset & Base ── */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;font-size:17px}
+  body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.7;color:#1a1a2e;background:#fafaf9;overflow-x:hidden}
+
+  /* ── Progress Bar ── */
+  #progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#003DA5,#00a8e8);z-index:1000;transition:width .1s linear}
+
+  /* ── Nav ── */
+  nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #eaeaea;z-index:999;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;font-size:.82rem}
+  nav a{color:#444;text-decoration:none;transition:color .2s;white-space:nowrap}
+  nav a:hover{color:#003DA5}
+  nav .logo{font-weight:800;color:#003DA5;font-size:1rem;margin-right:auto}
+  nav .toc-toggle{background:#003DA5;color:#fff;border:none;padding:.35rem .8rem;border-radius:6px;cursor:pointer;font-size:.78rem}
+
+  /* ── Hero ── */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#003DA5 0%,#0055cc 30%,#0077e6 60%,#00a8e8 100%);color:#fff;padding:4rem 1.5rem;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+  .hero h1{font-size:clamp(2.5rem,7vw,5.5rem);font-weight:900;letter-spacing:-.03em;position:relative;text-shadow:0 4px 30px rgba(0,0,0,.2)}
+  .hero .sub{font-size:clamp(1rem,2.5vw,1.5rem);opacity:.9;margin-top:.8rem;position:relative;max-width:700px}
+  .hero .badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:.4rem 1.2rem;font-size:.85rem;margin-top:1.5rem;position:relative;backdrop-filter:blur(6px)}
+  .hero .scroll-hint{position:absolute;bottom:2rem;animation:bounce 2s infinite;opacity:.7}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+
+  /* ── Sections ── */
+  section{padding:5rem 1.5rem;max-width:900px;margin:0 auto}
+  section:nth-child(even){background:#fff}
+  h2{font-size:2.2rem;font-weight:800;color:#003DA5;margin-bottom:.5rem;letter-spacing:-.02em}
+  h3{font-size:1.4rem;font-weight:700;color:#1a1a2e;margin:1.8rem 0 .6rem}
+  .section-intro{color:#666;font-size:1.05rem;margin-bottom:2rem;border-left:3px solid #003DA5;padding-left:1.2rem}
+
+  /* ── Stat Cards ── */
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.2rem;margin:2rem 0}
+  .stat-card{background:#fff;border-radius:14px;padding:1.5rem;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid #f0f0f0;transition:transform .2s}
+  .stat-card:hover{transform:translateY(-3px)}
+  .stat-card .num{font-size:2.2rem;font-weight:900;color:#003DA5;display:block}
+  .stat-card .lbl{color:#666;font-size:.85rem;margin-top:.3rem}
+
+  /* ── Fun Fact Callout ── */
+  .fun-fact{background:linear-gradient(135deg,#fff8e1,#fff3cd);border:1px solid #ffc107;border-radius:12px;padding:1.3rem 1.5rem;margin:2rem 0;display:flex;gap:1rem;align-items:flex-start}
+  .fun-fact .icon{font-size:2rem;flex-shrink:0}
+  .fun-fact p{margin:0;font-size:.95rem}
+  .fun-fact strong{color:#b45309}
+
+  /* ── SWOT Grid ── */
+  .swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#ddd;border-radius:14px;overflow:hidden;margin:2rem 0;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+  .swot-grid .cell{padding:1.8rem}
+  .swot-grid h4{font-size:1.1rem;margin-bottom:.8rem;font-weight:800}
+  .swot-grid ul{list-style:none;padding:0;font-size:.88rem;line-height:1.7}
+  .swot-grid li::before{content:'• ';font-weight:bold;margin-right:.3rem}
+  .swot-s{background:#e8f5e9;border-right:1px solid #ddd}.swot-s h4{color:#2e7d32}
+  .swot-w{background:#ffebee}.swot-w h4{color:#c62828}
+  .swot-o{background:#e3f2fd;border-right:1px solid #ddd}.swot-o h4{color:#0d47a1}
+  .swot-t{background:#fff3e0}.swot-t h4{color:#e65100}
+  .swot-post{background:#f5f5f5;border-radius:10px;padding:1.3rem 1.5rem;margin-top:1.5rem}
+
+  /* ── Problem Cards ── */
+  .problem-card{background:#fff;border-radius:12px;padding:1.5rem 1.8rem;margin:1.5rem 0;box-shadow:0 2px 12px rgba(0,0,0,.05);border-left:4px solid #003DA5}
+  .problem-card h4{font-weight:700;margin-bottom:.5rem}
+  .problem-card .diag{color:#555;margin-bottom:.8rem}
+  .problem-card .soln{background:#f0f6ff;border-radius:8px;padding:1rem;font-size:.92rem}
+
+  /* ── Timeline ── */
+  .timeline{position:relative;margin:2rem 0;padding-left:2rem}
+  .timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(#003DA5,#00a8e8)}
+  .timeline-item{position:relative;margin-bottom:1.8rem;padding-left:1.5rem}
+  .timeline-item::before{content:'';position:absolute;left:-2.35rem;top:.4rem;width:12px;height:12px;border-radius:50%;background:#003DA5;border:2px solid #fff;box-shadow:0 0 0 3px #003DA5}
+  .timeline-item .year{font-weight:800;color:#003DA5;font-size:.9rem}
+  .timeline-item p{margin:0;font-size:.92rem}
+
+  /* ── Segmentation Cards ── */
+  .seg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.2rem;margin:1.5rem 0}
+  .seg-card{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,.05);border-top:3px solid #003DA5}
+  .seg-card h4{font-weight:700;color:#003DA5;margin-bottom:.5rem}
+
+  /* ── 4Ps Wheel ── */
+  .ps-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:2rem 0}
+  .p-card{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+  .p-card:nth-child(1){border-top:4px solid #003DA5}
+  .p-card:nth-child(2){border-top:4px solid #e65100}
+  .p-card:nth-child(3){border-top:4px solid #2e7d32}
+  .p-card:nth-child(4){border-top:4px solid #6a1b9a}
+  .p-card h4{font-weight:800;margin-bottom:.6rem}
+
+  /* ── References ── */
+  .ref-list{font-size:.82rem;line-height:1.8;columns:2;column-gap:2rem}
+  .ref-list li{margin-bottom:.4rem;break-inside:avoid}
+
+  /* ── Footer ── */
+  footer{background:#003DA5;color:rgba(255,255,255,.8);text-align:center;padding:2rem;font-size:.82rem}
+  footer a{color:#fff}
+
+  /* ── Back to Top ── */
+  #back-top{position:fixed;bottom:2rem;right:2rem;background:#003DA5;color:#fff;width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.3rem;box-shadow:0 4px 14px rgba(0,61,165,.35);display:none;z-index:998;transition:transform .2s}
+  #back-top:hover{transform:scale(1.1)}
+
+  /* ── Responsive ── */
+  @media(max-width:768px){
+    .swot-grid{grid-template-columns:1fr}
+    .ps-grid{grid-template-columns:1fr}
+    .ref-list{columns:1}
+    nav{gap:.6rem;font-size:.75rem}
+    h2{font-size:1.6rem}
+    section{padding:3rem 1rem}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <span class="logo">Danone Deep-Dive</span>
+  <a href="#exec">Executive Summary</a>
+  <a href="#intro">Company</a>
+  <a href="#vision">Vision</a>
+  <a href="#market">Market</a>
+  <a href="#swot">SWOT</a>
+  <a href="#stp">STP</a>
+  <a href="#objectives">Objectives</a>
+  <a href="#mix">4 Ps</a>
+  <a href="#problems">Problems</a>
+  <a href="#conclusion">Conclusion</a>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<header class="hero">
+  <h1>The Yogurt Empire</h1>
+  <p class="sub">A complete marketing autopsy of Danone — the €27 billion French dairy juggernaut that convinced the world yogurt is medicine, became the planet's largest B Corp, and somehow still can't dominate a single Egyptian baqala.</p>
+  <div class="badge">EMBA Marketing Research · Dr. 3adel · April 2026</div>
+  <div class="scroll-hint">↓ Scroll to begin ↓</div>
+</header>
+
+<!-- ═══════════ EXECUTIVE SUMMARY ═══════════ -->
+<section id="exec">
+  <h2>Executive Summary</h2>
+  <p class="section-intro">The 90-second version for people who have PowerPoint to build.</p>
+
+  <p>Danone S.A. is the <strong>global leader in yogurt</strong> and a top-three player in specialised nutrition and waters, with 2024 net sales of <strong>€27.4 billion</strong> and like-for-like growth of +4.3%. Under CEO Antoine de Saint-Affrique, the "Renew Danone" programme launched in 2022 has rebuilt growth (+4.5% LFL in 2025), rotated the portfolio (Russia exit; acquisitions of Kate Farms and The Akkermansia Company), and culminated in November 2025 with Danone becoming the <strong>world's largest B Corp food company</strong> — roughly 9% of the entire global B Corp workforce now works for Danone.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span class="num">€27.4B</span><span class="lbl">FY2024 Revenue</span></div>
+    <div class="stat-card"><span class="num">~90K</span><span class="lbl">Employees</span></div>
+    <div class="stat-card"><span class="num">120+</span><span class="lbl">Countries</span></div>
+    <div class="stat-card"><span class="num">18.5%</span><span class="lbl">Global Yogurt Share</span></div>
+    <div class="stat-card"><span class="num">~200</span><span class="lbl">B Corp Entities</span></div>
+    <div class="stat-card"><span class="num">+4.5%</span><span class="lbl">FY2025 LFL Growth</span></div>
+  </div>
+
+  <p style="margin-top:1.5rem">In Egypt, Danone has operated since 2006 from its Obour City plant (40,000 m², ~120,000 t/year capacity), with brands spanning yogurt (Activia, Danio, Danonino), dairy desserts (Danette), drinking yogurt (Activia Rayeb), and infant nutrition (Aptamil, Bebelac). The Egyptian dairy market reached USD 2.59 billion in 2025 and is dominated by Juhayna, whose H1-2025 revenues grew +23% to USD 293.5 million.</p>
+
+  <p>Five marketing problems define Danone Egypt's 2026 agenda: (1) imported-input cost shocks from the March 2024 EGP devaluation; (2) Juhayna's scale advantage in the baqala channel; (3) the consumer-education gap for functional and plant-based dairy; (4) regional momentum on sugar regulation that exposes Danette; and (5) limited cold-chain reach beyond Greater Cairo and Alexandria. Each is addressed below using the marketing frame taught in the course — SWOT, STP, the marketing concept, and the 4 Ps with the customer at the centre.</p>
+</section>
+
+<!-- ═══════════ 1. COMPANY INTRODUCTION ═══════════ -->
+<section id="intro">
+  <h2>1. Company Introduction</h2>
+  <p class="section-intro">From a Barcelona pharmacy to a Parisian boardroom — the 100-year road to yogurt world domination.</p>
+
+  <h3>1.1 Danone Group — The Origin Story</h3>
+  <p>Danone was founded in <strong>Barcelona in 1919</strong> by Isaac Carasso, a Thessaloniki-born Sephardic Jewish physician who was inspired by Ilya Mechnikov's research on lactic-acid bacteria at the Institut Pasteur. The brand name "Danone" is a Catalan diminutive of his son Daniel's name — literally "little Daniel." Carasso initially distributed yogurt <em>through pharmacies as a medicinal product</em>, since yogurt was largely unknown in Western Europe at the time. Yes: your breakfast was once prescription-only.</p>
+
+  <div class="timeline">
+    <div class="timeline-item"><span class="year">1919</span><p>Isaac Carasso founds Danone in Barcelona. Yogurt sold in pharmacies as medicine.</p></div>
+    <div class="timeline-item"><span class="year">1929</span><p>Carasso moves to France, opens a plant in Paris. The brand goes French.</p></div>
+    <div class="timeline-item"><span class="year">1972</span><p>Antoine Riboud delivers the famous "Marseille speech" — "Bringing health through food to as many people as possible."</p></div>
+    <div class="timeline-item"><span class="year">2007</span><p>Acquisition of Numico (€12.3B) — Danone becomes a force in infant & medical nutrition.</p></div>
+    <div class="timeline-item"><span class="year">2017</span><p>Acquisition of WhiteWave (Alpro, Silk) — plant-based dairy goes mainstream inside Danone.</p></div>
+    <div class="timeline-item"><span class="year">2021</span><p>Antoine de Saint-Affrique takes over as CEO. "Renew Danone" begins.</p></div>
+    <div class="timeline-item"><span class="year">2022</span><p>Russia exit announced (€1.2B loss). Renew Danone strategy launched: 3–5% LFL growth ambition.</p></div>
+    <div class="timeline-item"><span class="year">2024</span><p>Russia EDP sale closes (May). FY2024: €27.4B revenue, net income €2.02B (vs €0.88B in 2023).</p></div>
+    <div class="timeline-item"><span class="year">2025</span><p>Chapter 2 of Renew: EMEA/APAC/Americas reorg. Kate Farms + Akkermansia M&A. <strong>November: full global B Corp certification — first major food multinational ever.</strong> FY2025: +4.5% LFL.</p></div>
+  </div>
+
+  <p>Today Danone is headquartered in Paris, listed on Euronext Paris under the ticker <strong>BN.PA</strong>, employs ~90,000 people, and operates in more than 120 countries. It reports under three business segments:</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span class="num">€13.46B</span><span class="lbl">Essential Dairy & Plant-based (EDP) — 49% of revenue. Activia, Actimel, Danone, Danette, Danio, Alpro, Silk, Oikos.</span></div>
+    <div class="stat-card"><span class="num">€8.94B</span><span class="lbl">Specialized Nutrition — 33% of revenue. Aptamil, Nutricia, Nutrilon, Neocate (medical nutrition).</span></div>
+    <div class="stat-card"><span class="num">€4.98B</span><span class="lbl">Waters — 18% of revenue. Evian, Volvic, Aqua, Bonafont.</span></div>
+  </div>
+
+  <div class="fun-fact">
+    <span class="icon">🤯</span>
+    <p><strong>Did you know?</strong> Danone became the world's largest B Corp food company in <strong>November 2025</strong> — barely 5 months ago. More than 200 legal entities in 60+ countries. Danone employees now represent roughly <strong>9% of the entire global B Corp movement</strong>. That's not just bragging rights — it's a moat. No competitor can replicate this overnight.</p>
+  </div>
+
+  <h3>1.2 Danone in Egypt</h3>
+  <p>Danone entered Egypt in <strong>2006</strong> by acquiring the Obour City plant, located in the Obour Industrial Zone <strong>east of Cairo</strong> — not 6th of October City, as is sometimes incorrectly reported. (Even Ahmed's original brief had this wrong. The internet is full of outdated competitor maps — verify before your slide goes up.)</p>
+
+  <p>The Obour factory spans 40,000 m², runs 8–9 production lines, and has annual capacity of approximately 120,000 tons of dairy and yogurt for the local market <em>plus exports to Libya, Mauritius, and Kenya</em>. Danone Egypt also operates a dairy farm in Nubariya (~154 feddan), described as the second- or third-largest farm in the country. Cumulative investment in Egypt exceeds <strong>EGP 2 billion</strong> (a pre-2024 devaluation figure), and exports doubled (+112%) in 2023.</p>
+
+  <div class="seg-grid">
+    <div class="seg-card"><h4>Yogurt</h4><p>Activia, Danio, Danonino, Danone Plain</p></div>
+    <div class="seg-card"><h4>Drinking Yogurt</h4><p>Activia Rayeb (220g & 400g bottles)</p></div>
+    <div class="seg-card"><h4>Dairy Desserts</h4><p>Danette, Dango</p></div>
+    <div class="seg-card"><h4>Infant Nutrition</h4><p>Aptamil, Bebelac</p></div>
+  </div>
+
+  <p>Danone Egypt was the <strong>first company in Egypt to receive B Corp certification</strong> (2019) and runs two flagship rural programmes: <strong>"Gawda"</strong> (cooled milk-collection trucks for smallholder farmers) and <strong>"Omda"</strong> (rural community impact, joined by Bel Egypt in 2024–2025).</p>
+</section>
+
+<!-- ═══════════ 2. VISION, MISSION, VALUES ═══════════ -->
+<section id="vision">
+  <h2>2. Vision, Mission &amp; Values</h2>
+  <p class="section-intro">Or: how a dairy company rebranded itself as a public-health institution.</p>
+
+  <p>Danone's purpose statement — <strong>"Bringing health through food to as many people as possible"</strong> — has guided the group since 1972, and is operationalised through the <strong>"One Planet. One Health."</strong> framework launched in 2017. This is a textbook example of what Dr. 3adel calls <em>defining the business from the market's perspective</em>: Danone is in the business of <strong>health and well-being through nutrition</strong>, not merely in the business of producing dairy. (Just as Toyota is in transportation, not cars; Disney is in entertainment, not amusement parks.)</p>
+
+  <h3>Headline 2030 Sustainability Commitments</h3>
+  <div class="stat-grid">
+    <div class="stat-card"><span class="num">−50%</span><span class="lbl">Cut carbon intensity by 2030 (Scope 1+2+3)</span></div>
+    <div class="stat-card"><span class="num">100%</span><span class="lbl">Renewable electricity by 2030</span></div>
+    <div class="stat-card"><span class="num">100%</span><span class="lbl">Packaging recyclable, reusable, or compostable</span></div>
+    <div class="stat-card"><span class="num">Net-Zero</span><span class="lbl">Full value chain (incl. Scope 3 agriculture) by 2050</span></div>
+  </div>
+
+  <p>Lead methane reduction in dairy and roll out regenerative agriculture with farmer partners round out the agenda. For the EMBA marketing frame, the B Corp certification is more than a CSR badge: it is the explicit move from the "marketing" orientation to the <strong>"societal marketing" orientation</strong> taught in the course — balancing consumer wants, company requirements, <em>and society's long-term interests</em>.</p>
+</section>
+
+<!-- ═══════════ 3. INDUSTRY & MARKET CONTEXT ═══════════ -->
+<section id="market">
+  <h2>3. Industry &amp; Market Context</h2>
+  <p class="section-intro">The global yogurt aisle is a ~$144 billion battlefield, and Egypt's dairy market is a $2.59 billion arena where FX shocks rewrite the rules every morning.</p>
+
+  <h3>3.1 Global Dairy &amp; Yogurt Market</h3>
+  <p>The global yogurt market was valued at approximately <strong>USD 144.3 billion in 2025</strong> and is projected to grow at ~5.4% CAGR to ~USD 245 billion by 2035. Traditional/stirred yogurt remains the largest sub-segment (~39% share). The top five global players collectively held 52.7% market share in 2025:</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span class="num">#1</span><span class="lbl">Danone S.A. — ~18.5% share (up from ~14% in 2024)</span></div>
+    <div class="stat-card"><span class="num">#2</span><span class="lbl">Lactalis (France, private)</span></div>
+    <div class="stat-card"><span class="num">#3</span><span class="lbl">Nestlé S.A. (Switzerland)</span></div>
+    <div class="stat-card"><span class="num">#4</span><span class="lbl">China Mengniu Dairy — ~11% share</span></div>
+    <div class="stat-card"><span class="num">#5</span><span class="lbl">Inner Mongolia Yili (China)</span></div>
+  </div>
+
+  <p>The dominant demand drivers are <strong>probiotic and functional yogurts</strong> (Activia is the flagship), <strong>high-protein Greek-style and HiPro variants</strong>, <strong>plant-based dairy</strong> (Alpro, Silk), and <strong>gut-health and microbiome positioning</strong> — the latter reinforced by Danone's 2025 acquisition of The Akkermansia Company.</p>
+
+  <h3>3.2 Egyptian Dairy Market</h3>
+  <p>The Egyptian dairy products & eggs market reached approximately <strong>USD 2.59 billion in 2025</strong>, with volume growth of ~2.3%. Per-capita dairy consumption is ~51.4 kg/person/year, with milk specifically at ~22.1 kg/person/year — well below European or Gulf benchmarks, signalling structural growth headroom.</p>
+
+  <p>The market is regulated by the <strong>National Food Safety Authority (NFSA)</strong>, established in 2017. NFSA Decision No. 6/2020 governs food import licensing; dairy imports require veterinary certificates, foreign-manufacturer registration, Halal certification, pre-shipment inspection, and Arabic labelling.</p>
+
+  <div class="fun-fact">
+    <span class="icon">💸</span>
+    <p><strong>The March 2024 EGP devaluation — a one-day economic earthquake:</strong> On 6 March 2024 the Central Bank of Egypt floated the pound, causing a one-day devaluation of approximately <strong>38%</strong> — the official rate moved from ~EGP 30.9/USD to ~EGP 50/USD. On the same day the CBE hiked policy rates by 600 bps to 27.75%. Headline inflation reached 29.8%; food inflation peaked at <strong>47%</strong>. An IMF/EU support package of ~USD 8 billion was unlocked simultaneously. FMCG margins were squeezed across the board, accelerating the rise of discount retailers (Kazyon, BIM) at the expense of premium chains. <strong>Every imported milk-powder bag and packaging-resin shipment Danone buys is now ~38% more expensive in EGP terms.</strong></p>
+  </div>
+</section>
+
+<!-- ═══════════ 4. SWOT ═══════════ -->
+<section id="swot">
+  <h2>4. SWOT Analysis</h2>
+  <p class="section-intro">The mandatory framework for any long-term strategic plan, per Dr. 3adel. Internal (Strengths, Weaknesses) vs. External (Opportunities, Threats). Strengths that competitors can't copy easily = distinctive competencies = sustainable competitive advantage.</p>
+
+  <div class="swot-grid">
+    <div class="cell swot-s">
+      <h4>🟢 Strengths (Internal)</h4>
+      <ul>
+        <li>Global #1 in yogurt with ~18.5% share — <strong>distinctive competency</strong></li>
+        <li>Activia — iconic functional/probiotic franchise; HiPro/Oikos/Danio anchor high-protein leadership</li>
+        <li>World's largest B Corp food company — sustainability as a <strong>sustainable competitive advantage</strong></li>
+        <li>Diversified across EDP, Specialized Nutrition (high margin), and Waters</li>
+        <li>R&D heritage from Institut Pasteur + Akkermansia microbiome platform — <strong>distinctive competency</strong></li>
+        <li>FY2024: €27.4B revenue, recurring EBIT margin 13.0%, FCF €3.0B</li>
+      </ul>
+    </div>
+    <div class="cell swot-w">
+      <h4>🔴 Weaknesses (Internal)</h4>
+      <ul>
+        <li>Premium pricing in price-sensitive emerging markets where Juhayna's value SKUs dominate</li>
+        <li>Heavy exposure to imported milk-powder volatility and EGP-denominated cost shocks</li>
+        <li>EDP segment LFL +3.8% (FY2024) trailed Specialized Nutrition (+4.6%) and Waters (+5.1%)</li>
+        <li>Slower DTC / digital footprint vs startup challengers in functional-nutrition niches</li>
+        <li>Lingering reputational drag from Russia exit (€1.2B loss) and MENA boycott noise</li>
+      </ul>
+    </div>
+    <div class="cell swot-o">
+      <h4>🔵 Opportunities (External)</h4>
+      <ul>
+        <li>Probiotic, functional and gut-microbiome category growth</li>
+        <li>Plant-based and high-protein dairy in MENA — under-penetrated vs Europe</li>
+        <li>E-commerce / q-commerce explosion in Egypt — Talabat Mart, Rabbit, Breadfast</li>
+        <li>Specialized Nutrition (infant + medical) in Egypt's young-population demographic</li>
+        <li>Local sourcing programmes (Gawda, Omda) reduce EGP exposure and build regulatory goodwill</li>
+      </ul>
+    </div>
+    <div class="cell swot-t">
+      <h4>🟠 Threats (External)</h4>
+      <ul>
+        <li>EGP devaluation (−38%) and 600 bps rate hike crushing imported-input economics</li>
+        <li>Juhayna's scale, price-fighter SKUs, and 30% price hikes absorbing share</li>
+        <li>Public-health / sugar-content scrutiny on dairy desserts (Danette)</li>
+        <li>BDS / consumer-led boycott campaigns affecting Western FMCG in MENA</li>
+        <li>Climate and water-stress risk for Egyptian agriculture</li>
+        <li>Discount retailers (Kazyon, BIM) commoditising premium brand price points</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="swot-post">
+    <h4>Post-SWOT Questions (per the lecture frame)</h4>
+    <ol>
+      <li><strong>Which strengths are distinctive competencies matching Egyptian-market success requirements?</strong> → R&D (probiotic IP), global B Corp brand equity, and Activia's clinical-trial heritage. All three are hard-to-copy and align with what the health-conscious Egyptian consumer increasingly demands.</li>
+      <li><strong>Which weaknesses disqualify Danone from particular opportunities?</strong> → Premium pricing disqualifies Danone from the deep-discount baqala segment where Juhayna rules. Russia/BDS reputational drag complicates the B Corp story in MENA.</li>
+      <li><strong>Does a pattern emerge?</strong> → Yes: functional dairy R&D + a young, urbanising Egyptian consumer base = a textbook environmental-opportunity-to-organisational-opportunity conversion — provided Danone can solve the price-accessibility and cold-chain equations.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══════════ 5. STP ═══════════ -->
+<section id="stp">
+  <h2>5. Segmentation, Targeting &amp; Positioning (STP)</h2>
+  <p class="section-intro">As Dr. 3adel says: "A marketer's competence is judged by how they do segmentation." Danone Egypt segments a heterogeneous market — price-sensitive mainstream households, an aspirational urban middle class, and a smaller affluent health-conscious segment — into homogeneous targets, then positions distinct brands against each.</p>
+
+  <h3>5.1 Segmentation Bases</h3>
+  <div class="seg-grid">
+    <div class="seg-card">
+      <h4>Geographic</h4>
+      <p>Concentrated in Greater Cairo, Alexandria, and Delta urban centres. Weaker in Upper Egypt — a gap that maps directly onto cold-chain limits. Exports from Obour target Libya, Mauritius, and Kenya.</p>
+    </div>
+    <div class="seg-card">
+      <h4>Demographic</h4>
+      <p>Dr. 3adel's "most widely used" basis. Distinct brands across the family life-cycle: Danonino (young children), Activia & Danio (adult women — digestive health / weight management), HiPro (active adults), Aptamil/Bebelac (infants). Income segmentation layered on top.</p>
+    </div>
+    <div class="seg-card">
+      <h4>Psychographic</h4>
+      <p>Lifestyle-driven: health-conscious consumers (Activia, Danio), active/fitness consumers (HiPro), and sustainability-aware consumers (the B Corp story).</p>
+    </div>
+    <div class="seg-card">
+      <h4>Behavioural</h4>
+      <p>All four lecture dimensions: <strong>Occasions</strong> (Danette & Rayeb = snack/on-the-go), <strong>Benefits sought</strong> (Activia = digestion, Danio = protein, Danonino = kids' growth, Aptamil = infant nutrition), <strong>User status</strong> (repeat purchasers = highest-value segment), <strong>Loyalty</strong> — but remember: <em>satisfaction ≠ loyalty</em>. Dairy switching costs are low.</p>
+    </div>
+  </div>
+
+  <h3>5.2 Targeting Strategy</h3>
+  <p>Danone Egypt practises <strong>differentiated targeting</strong> — distinct brand-product bundles for separate segments — with a <strong>concentrated overlay</strong> in Specialized Nutrition (Aptamil/Bebelac is essentially a niche, premium, health-led offering for parents of infants). In Dr. 3adel's vocabulary: <em>niche = شريحة صغيرة</em>.</p>
+  <p>Across the five targeting-choice factors (company resources, product variability, life-cycle stage, market variability, competitor behaviour): Danone's deep R&D and large global resources justify the differentiated stance, while the variability of consumer needs in dairy makes one-size-fits-all (undifferentiated) untenable.</p>
+
+  <h3>5.3 Positioning</h3>
+  <p>Following the slide template — "To (target segment and need) our (brand) is (concept) that (point of difference)":</p>
+
+  <div class="seg-grid">
+    <div class="seg-card">
+      <h4>Activia</h4>
+      <p>To health-conscious adult women seeking everyday digestive comfort, Activia is a daily probiotic yogurt that <strong>scientifically proves results in 14 days</strong>.</p>
+    </div>
+    <div class="seg-card">
+      <h4>Danio</h4>
+      <p>To active adults seeking satiety with quality, Danio is a high-protein Greek-style yogurt that offers <strong>up to 12 g of protein per serving</strong>.</p>
+    </div>
+    <div class="seg-card">
+      <h4>Danonino</h4>
+      <p>To mothers seeking fun-but-nutritious snacks for young children, Danonino is a calcium- and vitamin-enriched mini-yogurt that <strong>supports growth</strong>.</p>
+    </div>
+    <div class="seg-card">
+      <h4>Aptamil / Bebelac</h4>
+      <p>To parents seeking the closest possible alternative to breast milk, Aptamil is a scientifically formulated infant nutrition <strong>trusted by paediatricians worldwide</strong>.</p>
+    </div>
+    <div class="seg-card">
+      <h4>Danette</h4>
+      <p>To families seeking an affordable indulgence at home, Danette is a creamy chocolate or vanilla pudding that delivers <strong>café-style dessert at supermarket prices</strong>.</p>
+    </div>
+  </div>
+
+  <div class="fun-fact">
+    <span class="icon">🧠</span>
+    <p><strong>Exam trap alert:</strong> The lecture explicitly warns: <strong>Differentiation ≠ Positioning</strong>. Differentiation is the <em>real</em> advantage (probiotic strain L. casei DN-114 001 in Activia; clinical trials for Aptamil). Positioning is <em>implanting</em> that advantage in the consumer's mind — the <strong>مكانة ذهنية مميزة</strong>, the "distinctive mental place." Don't confuse the two on the exam.</p>
+  </div>
+</section>
+
+<!-- ═══════════ 6. MARKETING OBJECTIVES ═══════════ -->
+<section id="objectives">
+  <h2>6. Marketing Objectives</h2>
+  <p class="section-intro">Not SMART (the doctor never used SMART in the lectures). Instead: a three-category split — Production, Financial, Marketing — with every objective mapped to an Ansoff cell.</p>
+
+  <p>Danone's marketing objectives in Egypt for 2026:</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span class="num">+5%</span><span class="lbl">Grow Egyptian net sales by mid-single-digit LFL while protecting margin against EGP volatility</span></div>
+    <div class="stat-card"><span class="num">+2pp</span><span class="lbl">Raise Activia's probiotic/functional segment share through education campaigns and pack innovation</span></div>
+    <div class="stat-card"><span class="num">2×</span><span class="lbl">Double Danio's trial rate in modern trade via the global high-protein trend</span></div>
+    <div class="stat-card"><span class="num">Top 3</span><span class="lbl">Achieve top-3 share for Aptamil/Bebelac in Egyptian infant-nutrition</span></div>
+    <div class="stat-card"><span class="num">25%</span><span class="lbl">Bring 25% of FY2026 Egypt sales through e-commerce and q-commerce channels</span></div>
+    <div class="stat-card"><span class="num">+10pp</span><span class="lbl">Deepen local sourcing via Gawda — add 10pp of local milk content to reduce FX exposure</span></div>
+  </div>
+
+  <p style="margin-top:1.5rem"><strong>Ansoff mapping:</strong> Activia and Danio share-growth = <strong>Market Penetration</strong> (existing products, existing markets). Danio category education = <strong>Product Development</strong> (new promotion for existing product). E-commerce expansion = <strong>Market Development</strong> (existing products, new channel). Aptamil top-3 ambition = <strong>Product Development + Market Penetration</strong> combined.</p>
+</section>
+
+<!-- ═══════════ 7. MARKETING MIX — 4 Ps ═══════════ -->
+<section id="mix">
+  <h2>7. Marketing Mix — The 4 Ps</h2>
+  <p class="section-intro">Per the lecture: the customer sits at the CENTRE of the marketing mix. Every P is designed inwards from a market study, not outwards from a production line. "The customer is king."</p>
+
+  <div class="ps-grid">
+    <div class="p-card">
+      <h4>Product</h4>
+      <p>Spanning yogurt (Danone plain, Activia, Danio, Danonino), dairy desserts (Danette, Dango), drinking yogurt (Activia Rayeb 220g & 400g), and infant/specialised nutrition (Aptamil, Bebelac). Illustrates the three product-development modes from the lecture:</p>
+      <ul style="font-size:.9rem;margin-top:.5rem;padding-left:1.2rem">
+        <li><strong>Product Innovation:</strong> Akkermansia biotics (global)</li>
+        <li><strong>Product Augmentation:</strong> Activia's ongoing reformulation</li>
+        <li><strong>Line Extension:</strong> Activia multipacks 6×100g, Activia Light 120g</li>
+      </ul>
+      <p style="margin-top:.5rem">Branding is a strategic asset — brand value sits on the balance sheet in billions. Packaging is a quality cue (multi-pack formats, transparent Rayeb bottles).</p>
+    </div>
+    <div class="p-card">
+      <h4>Price</h4>
+      <p>Premium-tier strategy across functional yogurt (Activia), high-protein (Danio), and specialised nutrition (Aptamil), at parity-or-premium versus Lamar/Beyti and clearly above Juhayna's plain-yogurt SKUs.</p>
+      <p style="margin-top:.5rem">After the March 2024 devaluation, Juhayna pushed through ~30% price increases. Danone must follow a similar trajectory while watching elasticity: in a market where food inflation peaked at 47%, every EGP of price = immediate volume risk.</p>
+      <p style="margin-top:.5rem">The lecture's sub-bullets: list price (premium for functional, value for plain), discounts (modern-trade promos), and payment facilities (تسهيلات دفع — trade credit for distributors).</p>
+    </div>
+    <div class="p-card">
+      <h4>Place</h4>
+      <p>Three concentric distribution circles:</p>
+      <ul style="font-size:.9rem;margin-top:.5rem;padding-left:1.2rem">
+        <li><strong>Modern Trade</strong> (highest-margin): Carrefour Egypt, Spinneys, Gourmet, Seoudi, Kheir Zaman, Metro Markets</li>
+        <li><strong>Traditional Trade</strong> (highest-volume): 400,000+ baqala outlets — dominant by transaction count, but hardest for premium dairy (cold-chain limits)</li>
+        <li><strong>E-commerce / Q-commerce</strong> (fastest-growing): Talabat Mart + Spinneys (14 stores across Sheikh Zayed, 6th of October, New Cairo, Maadi, Mokattam, Nasr City, Sherouk, Alexandria), Rabbit (sub-20-min hyperlocal), Breadfast (subscription), Carrefour app</li>
+      </ul>
+    </div>
+    <div class="p-card">
+      <h4>Promotion</h4>
+      <p>All five lecture tools in play:</p>
+      <ul style="font-size:.9rem;margin-top:.5rem;padding-left:1.2rem">
+        <li><strong>Advertising:</strong> TV + outdoor for iconic brands</li>
+        <li><strong>Sales Promotion:</strong> Multi-pack pricing, trial samples</li>
+        <li><strong>PR:</strong> Gawda & Omda rural programmes + global B Corp story</li>
+        <li><strong>Personal Selling:</strong> Medical-detailing force for Aptamil/Bebelac (paediatricians & pharmacies)</li>
+        <li><strong>Direct Marketing:</strong> Digital + q-commerce apps</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. MARKETING PROBLEMS & SOLUTIONS ═══════════ -->
+<section id="problems">
+  <h2>8. Marketing Problems — &amp; How to Fix Them</h2>
+  <p class="section-intro">Five real problems Danone Egypt faces right now. Each diagnosed in the language of the lecture (external environment / SWOT / 4 Ps) and answered with concrete solutions rooted in those same frameworks.</p>
+
+  <div class="problem-card">
+    <h4>Problem 1: EGP Devaluation — When Your Costs Jump 38% Overnight</h4>
+    <div class="diag"><strong>Diagnosis:</strong> With the pound floated to ~EGP 50/USD in March 2024 and food inflation peaking at 47%, Danone's milk-powder, packaging-resin, and capex costs in EGP rose sharply. Juhayna responded with ~30% price hikes — but Danone's premium positioning means consumers are more elasticity-sensitive. Every additional EGP of price risks losing volume to local rivals.</div>
+    <div class="soln"><strong>Solution (3 levers):</strong> (a) <em>Place/Supply:</em> deepen the Gawda local-milk programme to raise local-content ratio and reduce hard-currency exposure. (b) <em>Product:</em> introduce smaller, lower-EGP-ticket pack sizes (single-serve cups) so absolute shelf prices stay psychologically accessible. (c) <em>Price:</em> stagger increases by SKU — carry the burden on Danio and Activia Light, hold the line on Danonino and Activia Rayeb — and re-time promotional depth around payday cycles.</div>
+  </div>
+
+  <div class="problem-card">
+    <h4>Problem 2: Juhayna — The Local Goliath</h4>
+    <div class="diag"><strong>Diagnosis:</strong> Juhayna is the listed market leader (H1-2025 revenue +23% YoY to USD 293.5M) with deeper traditional-trade reach and a value-tier portfolio that out-prices Danone in mainstream yogurt and rayeb. Danone's premium positioning works in modern trade but exposes a share gap in the much larger baqala channel. Juhayna has a distinctive competency — local route-to-market — that Danone cannot copy quickly.</div>
+    <div class="soln"><strong>Solution (compete asymmetrically):</strong> (a) <em>Place:</em> partner with regional sub-distributors for top-tier baqala in chosen Delta and Upper Egypt cities, supported by chiller placement subsidies. (b) <em>Product:</em> launch a "Danone fundamentals" value SKU sized for the baqala basket — a market-penetration play in Ansoff terms. (c) <em>Promotion:</em> use disproportionate advertising for Activia and Danio in modern trade and q-commerce where premium positioning earns its margin.</div>
+  </div>
+
+  <div class="problem-card">
+    <h4>Problem 3: "What's a Probiotic, Again?" — The Education Gap</h4>
+    <div class="diag"><strong>Diagnosis:</strong> Activia's gut-health and Danio's high-protein propositions require sustained shopper education in a market where plain yogurt and rayeb are habitual purchases. Plant-based dairy (Alpro globally) has minimal MENA awareness. Per the lecture, this is a classic environmental opportunity (changing customer needs) that requires distinctive competency to convert into an organisational opportunity.</div>
+    <div class="soln"><strong>Solution (coordinated education):</strong> (a) <em>Promotion:</em> launch a "14 Days with Activia" digital and TV campaign reviving the original Activia clinical claim, supported by paediatrician and gastroenterologist testimonial PR. (b) <em>Product:</em> pilot Alpro in modern trade only (concentrated targeting) with two SKUs to test category-education economics. (c) <em>Place:</em> lean on q-commerce subscription models (Breadfast) to convert trial into routine.</div>
+  </div>
+
+  <div class="problem-card">
+    <h4>Problem 4: Sugar Scrutiny — Danette Under the Microscope</h4>
+    <div class="diag"><strong>Diagnosis:</strong> Dairy desserts like Danette are under increasing parental and regulator scrutiny across MENA for added-sugar content. While no Egypt-specific NFSA sugar mandate exists yet, regional momentum (Saudi Arabia's sugar tax, UAE's mandatory front-of-pack labelling) signals pressure is approaching. This is a societal-marketing test: Danone's long-term consumer interest must be balanced with short-term commercial appeal.</div>
+    <div class="soln"><strong>Solution (pre-empt, don't wait):</strong> (a) <em>Product:</em> launch a Danette Reduced-Sugar variant (line extension) and reformulate the core variant in line with global Danone reformulation programmes. (b) <em>Promotion:</em> front-load Gawda/Omda-style social PR around child nutrition (Danonino) so the narrative is health-positive when the regulatory debate intensifies. (c) <em>Price:</em> hold the reformulated Danette at the same shelf price — accept the input-cost hit to protect category trust.</div>
+  </div>
+
+  <div class="problem-card">
+    <h4>Problem 5: Beyond Cairo — Cold-Chain Geography</h4>
+    <div class="diag"><strong>Diagnosis:</strong> Egypt's ~400,000 baqala outlets dominate FMCG by transaction count, but cold-chain limitations and Juhayna's entrenched route-to-market constrain Danone beyond Cairo, Alexandria, and Delta urban centres. Gawda tackles the upstream (milk-collection) side; downstream chilled distribution remains the choke-point.</div>
+    <div class="soln"><strong>Solution (multi-year, geographically phased):</strong> (a) <em>Place:</em> invest in regional cold-chain hubs (Mansoura, Tanta, Assiut) — possibly co-funded with EBRD or IFC sustainability lending given B Corp credentials. (b) <em>Product:</em> prioritise UHT-style or longer-shelf-life formats for upstream regions where chilled is unrealistic. (c) <em>Promotion:</em> regional advertising on Sa'idi/Delta TV channels and partnerships with local football clubs — taking the البيئة المحيطة of each region seriously rather than running a Cairo-only campaign.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 9. CONCLUSION ═══════════ -->
+<section id="conclusion">
+  <h2>9. Conclusion</h2>
+  <p class="section-intro">The final slide in your head.</p>
+
+  <p>Danone is a global category leader in yogurt and a credible challenger in specialised nutrition and waters, newly armed with a B Corp credential that no rival can match in the short term. Renew Danone has visibly worked: +4.3% LFL in 2024 followed by +4.5% in 2025, expanding margins and rising free cash flow.</p>
+
+  <p>In Egypt, the prize is real — a <strong>USD 2.59 billion dairy market</strong> with low per-capita consumption and a young, urbanising population — but the obstacles are equally real: a 38% one-day EGP devaluation has reset cost economics for everyone in the value chain, and Juhayna will defend the local mainstream with scale and price.</p>
+
+  <p><strong>The prescription:</strong> Defend the premium position in modern trade and q-commerce with Activia and Danio. Fight selectively in the baqala channel with a value SKU. Deepen local sourcing through Gawda to absorb FX shocks. Pre-empt sugar regulation on Danette before it arrives. And treat sustainability not as a communications exercise but as the lecture's <strong>societal-marketing orientation made operational</strong>.</p>
+
+  <p style="font-size:1.1rem;font-weight:700;color:#003DA5;margin-top:1.5rem">With the customer at the centre of every decision and a marketing concept that studies the market before it produces, Danone Egypt has the ingredients to convert today's environmental opportunity into a sustainable organisational advantage.</p>
+</section>
+
+<!-- ═══════════ REFERENCES ═══════════ -->
+<section id="references">
+  <h2>References</h2>
+  <p class="section-intro">All 40 in-text citations [n] resolve below. URLs retrieved on 28 April 2026.</p>
+  <ol class="ref-list">
+    <li>Danone — Wikipedia (founding history). <a href="https://en.wikipedia.org/wiki/Danone" target="_blank">Wikipedia</a></li>
+    <li>The history of Danone. <a href="https://www.danone.com/group/about-us/our-history.html" target="_blank">Danone Group</a></li>
+    <li>Danone: Strong FY 2024 results. <a href="https://www.globenewswire.com/news-release/2025/02/26/3032566/0/en/Danone-Strong-FY-2024-results-Entering-the-next-chapter-of-Renew-with-confidence.html" target="_blank">GlobeNewswire</a></li>
+    <li>Antoine de Saint-Affrique — CEO Danone. <a href="https://fr.linkedin.com/in/antoine-de-saint-affrique" target="_blank">LinkedIn</a></li>
+    <li>Strong FY 2024 results (PDF). <a href="https://www.danone.com/content/dam/corp/global/danonecom/investors/en-all-publications/2025/pressreleases/prdanone260225.pdf" target="_blank">Danone IR</a></li>
+    <li>Danone: 2025 — Another year of strong delivery. <a href="https://www.globenewswire.com/news-release/2026/02/20/3241691/0/en/DANONE-2025-Another-year-of-strong-delivery.html" target="_blank">GlobeNewswire</a></li>
+    <li>Danone's volumes turn positive in 2024. <a href="https://www.foodbusinessnews.net/articles/27789-danones-volumes-turn-positive-in-2024" target="_blank">Food Business News</a></li>
+    <li>Danone becomes the largest B Corp. <a href="https://www.dairyreporter.com/Article/2025/11/25/danone-becomes-the-largest-b-corp/" target="_blank">DairyReporter</a></li>
+    <li>Danone achieves B Corp certification worldwide. <a href="https://www.danone.com/newsroom/press-releases/b-corp-full-certification.html" target="_blank">Danone Group</a></li>
+    <li>Danone set for EUR1bn hit with Russia exit. <a href="https://www.just-food.com/special-focus/ukraine-crisis/danone-exits-dairy-and-plant-based-russia-business/" target="_blank">Just-Food</a></li>
+    <li>Completion of Russia EDP sale (May 2024). <a href="https://www.globenewswire.com/news-release/2024/05/17/2884377/0/en/DANONE-Completion-by-Danone-of-the-sale-of-its-EDP-business-in-Russia.html" target="_blank">GlobeNewswire</a></li>
+    <li>#LeaveRussia: Danone Closed its Business. <a href="https://leave-russia.org/danone" target="_blank">Leave Russia Project</a></li>
+    <li>High protein functional dairy drives EDP sales. <a href="https://www.dairyreporter.com/Article/2025/04/27/high-protein-functional-dairy-drives-edp-sales-at-danone-in-q1-2025/" target="_blank">DairyReporter</a></li>
+    <li>Danone takes sustainability to the next level. <a href="https://sustainabilitymag.com/company-reports/danone-takes-sustainability-next-level" target="_blank">Sustainability Magazine</a></li>
+    <li>Yogurt Market Size & Share, Forecasts 2026–2035. <a href="https://www.gminsights.com/industry-analysis/yogurt-market" target="_blank">Global Market Insights</a></li>
+    <li>Danone Egypt — Brands page. <a href="https://www.danone.eg/our-brands.html" target="_blank">Danone Egypt</a></li>
+    <li>Danone Egypt Expands with Investments Exceeding EGP 1B. <a href="https://www.egypttoday.com/Article/3/110267/Danone-Egypt-Expands-in-the-Market-with-Investments-Exceeding-One" target="_blank">Egypt Today</a></li>
+    <li>Danone Egypt — About Us. <a href="https://www.danone.eg/about-us-new.html" target="_blank">Danone Egypt</a></li>
+    <li>Activia Natural Yoghurt 6×100g. <a href="https://www.carrefouregypt.com/mafegy/en/probiotic-yoghurt/activia-natural-yoghurt100g-5-1/p/259416" target="_blank">Carrefour Egypt</a></li>
+    <li>Talabat partnership with Spinneys. <a href="https://www.zawya.com/en/press-release/companies-news/talabat-announces-partnership-with-spinneys-jnpf99ox" target="_blank">Zawya</a></li>
+    <li>How Egypt is redefining online shopping. <a href="https://www.zawya.com/en/economy/north-africa/how-egypt-is-redefining-online-shopping-geq8k83m" target="_blank">Zawya</a></li>
+    <li>Danone Egypt — Certified B Corporation profile. <a href="https://www.bcorporation.net/en-us/find-a-b-corp/company/danone-egypt/" target="_blank">B Lab Global</a></li>
+    <li>Danone Egypt launches Gawda Project. <a href="https://www.zawya.com/en/press-release/companies-news/danone-egypt-launches-gawda-project-cooling-milk-collection-trucks-to-preserve-quality-and-nutritional-value-ns4j4hag" target="_blank">Zawya</a></li>
+    <li>Bel Egypt joins Danone Egypt's Omda initiative. <a href="https://www.zawya.com/en/press-release/companies-news/bel-egypt-joins-danone-egypts-omda-initiative-to-extend-its-rural-footprint-and-drive-meaningful-community-impact-jke60nvn" target="_blank">Zawya</a></li>
+    <li>Egypt Dairy Products & Eggs Market. <a href="https://www.imarcgroup.com/egypt-dairy-products-eggs-market" target="_blank">IMARC Group</a></li>
+    <li>Egypt — Establishment of NFSA. <a href="https://www.fas.usda.gov/data/egypt-egypt-establishment-national-food-safety-authority" target="_blank">USDA FAS</a></li>
+    <li>NFSA Decision No 6/2020 — Food Import Licensing. <a href="https://www.fas.usda.gov/data/egypt-egypts-national-food-safety-authority-decision-no-6-2020-rules-regulating-food-import" target="_blank">USDA FAS</a></li>
+    <li>Egypt: Bold moves (March 2024 float). <a href="https://www.franklinresources.com/articles/2024/emerging-markets/egypt-bold-moves" target="_blank">Franklin Templeton</a></li>
+    <li>2023–2024 Egyptian financial crisis. <a href="https://en.wikipedia.org/wiki/2023%E2%80%932024_Egyptian_financial_crisis" target="_blank">Wikipedia</a></li>
+    <li>The shock of the 3rd flotation. <a href="https://eipr.org/en/press/2024/03/shock-3rd-flotation-and-its-impact-social-justice" target="_blank">EIPR</a></li>
+    <li>Juhayna Food Industries — Investor Home. <a href="https://www.juhayna.com/investor-home/" target="_blank">Juhayna</a></li>
+    <li>Juhayna 1H25 Earnings Release. <a href="https://www.juhayna.com/app/uploads/2025/11/1755209113_669_788386_1h25earningsreleaseenglish.pdf" target="_blank">Juhayna IR</a></li>
+    <li>Food company revenues soar as bellies rumble. <a href="https://manassa.news/en/stories/23782" target="_blank">Al Manassa</a></li>
+    <li>PepsiCo/Almarai JV Acquires Beyti (2009). <a href="https://www.pepsico.com/en/newsroom/press-releases/2009/pepsicoalmarai-joint-venture-international-dairy-and-juice-limited-acquires-egyptian-dairy-and-juice-company-beyti" target="_blank">PepsiCo</a></li>
+    <li>Beyti — About Us. <a href="https://beyti-app.vercel.app/corporate/about-beyti" target="_blank">Beyti</a></li>
+    <li>PepsiCo/Almarai JV acquires Beyti (coverage). <a href="https://www.foodingredientsfirst.com/news/pepsicoalmarai-joint-venture-international-dairy-and-juice-limited-acquires-beyti.html" target="_blank">Food Ingredients First</a></li>
+    <li>Almarai now owns 100% of Beyti. <a href="https://enterprise.press/stories/2023/02/23/almarai-now-owns-100-of-beyti-97678/" target="_blank">Enterprise Press</a></li>
+    <li>Almarai takes 100% share in PepsiCo JV. <a href="https://www.just-food.com/news/saudi-arabia-almarai-takes-100-share-in-pepsico-jv-international-dairy-and-juice-limited/" target="_blank">Just-Food</a></li>
+    <li>Danone Indonesia denies affiliation with Israel. <a href="https://en.tempo.co/read/1942251/danone-indonesia-denies-affiliation-with-israel-we-support-palestinian-independence" target="_blank">Tempo</a></li>
+    <li>Israel: why the brand boycotts won't make much difference. <a href="https://theconversation.com/israel-why-the-brand-boycotts-probably-wont-make-much-difference-217125" target="_blank">The Conversation</a></li>
+  </ol>
+</section>
+
+<footer>
+  <p>Danone Marketing Research — EMBA Group Project · Dr. 3adel · April 2026</p>
+  <p style="margin-top:.3rem">Built from <a href="#">Danone_Marketing_Research.docx</a> · 40 cited sources · All URLs retrieved 2026-04-28</p>
+</footer>
+
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll',()=>{
+    const h=document.documentElement, b=document.body;
+    const pct=(h.scrollTop||b.scrollTop)/((h.scrollHeight||b.scrollHeight)-h.clientHeight)*100;
+    document.getElementById('progress-bar').style.width=pct+'%';
+    document.getElementById('back-top').style.display=(h.scrollTop||b.scrollTop)>600?'block':'none';
+  });
+
+  // Fade in sections on scroll
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.style.opacity='1'})
+  },{threshold:.1});
+  document.querySelectorAll('section').forEach(s=>{s.style.opacity='0';s.style.transition='opacity .6s ease';observer.observe(s)});
+</script>
+
+</body>
+</html>
