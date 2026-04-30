@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Danone: The Yogurt Empire — A Marketing Deep-Dive</title>
+<title>Danone: The Yogurt Empire — A Marketing Deep-Dive | إمبراطورية الزبادي</title>
 <style>
   /* ── Reset & Base ── */
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -14,11 +14,16 @@
   #progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#003DA5,#00a8e8);z-index:1000;transition:width .1s linear}
 
   /* ── Nav ── */
-  nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #eaeaea;z-index:999;padding:.6rem 1.5rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;font-size:.82rem}
+  nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #eaeaea;z-index:999;padding:.6rem 1.5rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;font-size:.82rem}
   nav a{color:#444;text-decoration:none;transition:color .2s;white-space:nowrap}
   nav a:hover{color:#003DA5}
   nav .logo{font-weight:800;color:#003DA5;font-size:1rem;margin-right:auto}
   nav .toc-toggle{background:#003DA5;color:#fff;border:none;padding:.35rem .8rem;border-radius:6px;cursor:pointer;font-size:.78rem}
+
+  /* ── Lang Toggle ── */
+  #lang-toggle{background:transparent;color:#003DA5;border:2px solid #003DA5;padding:.3rem .9rem;border-radius:50px;cursor:pointer;font-size:.78rem;font-weight:700;transition:all .25s;white-space:nowrap}
+  #lang-toggle:hover{background:#003DA5;color:#fff}
+  #lang-toggle.ar-active{background:#003DA5;color:#fff;border-color:#003DA5}
 
   /* ── Hero ── */
   .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#003DA5 0%,#0055cc 30%,#0077e6 60%,#00a8e8 100%);color:#fff;padding:4rem 1.5rem;position:relative;overflow:hidden}
@@ -35,6 +40,17 @@
   h2{font-size:2.2rem;font-weight:800;color:#003DA5;margin-bottom:.5rem;letter-spacing:-.02em}
   h3{font-size:1.4rem;font-weight:700;color:#1a1a2e;margin:1.8rem 0 .6rem}
   .section-intro{color:#666;font-size:1.05rem;margin-bottom:2rem;border-left:3px solid #003DA5;padding-left:1.2rem}
+
+  /* ── RTL overrides ── */
+  [dir="rtl"] .section-intro{border-left:none;border-right:3px solid #003DA5;padding-left:0;padding-right:1.2rem}
+  [dir="rtl"] .problem-card{border-left:none;border-right:4px solid #003DA5}
+  [dir="rtl"] .timeline{padding-left:0;padding-right:2rem}
+  [dir="rtl"] .timeline::before{left:auto;right:0}
+  [dir="rtl"] .timeline-item{padding-left:0;padding-right:1.5rem}
+  [dir="rtl"] .timeline-item::before{left:auto;right:-2.35rem}
+  [dir="rtl"] .swot-s{border-right:none;border-left:1px solid #ddd}
+  [dir="rtl"] .swot-o{border-right:none;border-left:1px solid #ddd}
+  [dir="rtl"] .seg-card{border-top:none;border-bottom:3px solid #003DA5}
 
   /* ── Stat Cards ── */
   .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.2rem;margin:2rem 0}
@@ -87,6 +103,10 @@
   .p-card:nth-child(2){border-top:4px solid #e65100}
   .p-card:nth-child(3){border-top:4px solid #2e7d32}
   .p-card:nth-child(4){border-top:4px solid #6a1b9a}
+  [dir="rtl"] .p-card:nth-child(1){border-top:none;border-bottom:4px solid #003DA5}
+  [dir="rtl"] .p-card:nth-child(2){border-top:none;border-bottom:4px solid #e65100}
+  [dir="rtl"] .p-card:nth-child(3){border-top:none;border-bottom:4px solid #2e7d32}
+  [dir="rtl"] .p-card:nth-child(4){border-top:none;border-bottom:4px solid #6a1b9a}
   .p-card h4{font-weight:800;margin-bottom:.6rem}
 
   /* ── References ── */
@@ -100,13 +120,16 @@
   /* ── Back to Top ── */
   #back-top{position:fixed;bottom:2rem;right:2rem;background:#003DA5;color:#fff;width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:1.3rem;box-shadow:0 4px 14px rgba(0,61,165,.35);display:none;z-index:998;transition:transform .2s}
   #back-top:hover{transform:scale(1.1)}
+  [dir="rtl"] #back-top{right:auto;left:2rem}
 
   /* ── Responsive ── */
   @media(max-width:768px){
     .swot-grid{grid-template-columns:1fr}
     .ps-grid{grid-template-columns:1fr}
     .ref-list{columns:1}
-    nav{gap:.6rem;font-size:.75rem}
+    nav{gap:.4rem;font-size:.72rem}
+    nav .logo{font-size:.85rem}
+    #lang-toggle{padding:.25rem .6rem;font-size:.7rem}
     h2{font-size:1.6rem}
     section{padding:3rem 1rem}
   }
@@ -128,7 +151,13 @@
   <a href="#mix">4 Ps</a>
   <a href="#problems">Problems</a>
   <a href="#conclusion">Conclusion</a>
+  <button id="lang-toggle" onclick="toggleLang()">عربي</button>
 </nav>
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ENGLISH CONTENT -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="content-en" class="lang-content">
 
 <!-- ═══════════ HERO ═══════════ -->
 <header class="hero">
@@ -542,22 +571,486 @@
   <p style="margin-top:.3rem">Built from <a href="#">Danone_Marketing_Research.docx</a> · 40 cited sources · All URLs retrieved 2026-04-28</p>
 </footer>
 
+</div><!-- /#content-en -->
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- ARABIC CONTENT -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="content-ar" class="lang-content" dir="rtl" style="display:none">
+
+<!-- ═══════════ HERO ═══════════ -->
+<header class="hero">
+  <h1>إمبراطورية الزبادي</h1>
+  <p class="sub">تشريح تسويقي كامل لشركة Danone — عملاق الألبان الفرنسي بقيمة 27 مليار يورو الذي أقنع العالم بأن الزبادي دواء، وأصبح أكبر شركة B Corp غذائية على الكوكب، ومع ذلك لا يزال غير قادر على السيطرة على بقالة مصرية واحدة.</p>
+  <div class="badge">بحث تسويقي · ماجستير إدارة الأعمال · د. عادل · أبريل 2026</div>
+  <div class="scroll-hint">↓ اسحب للبدء ↓</div>
+</header>
+
+<!-- ═══════════ EXECUTIVE SUMMARY ═══════════ -->
+<section id="exec">
+  <h2>ملخص تنفيذي</h2>
+  <p class="section-intro">النسخة المختصرة في 90 ثانية لمن لديه عرض تقديمي ليبنيه.</p>
+
+  <p>شركة Danone هي <strong>الرائد العالمي في الزبادي</strong> ومن بين الثلاثة الكبار في التغذية المتخصصة والمياه، بصافي مبيعات 2024 بلغ <strong>27.4 مليار يورو</strong> ونمو comparable بلغ +4.3%. تحت قيادة المدير التنفيذي Antoine de Saint-Affrique، أعاد برنامج "Renew Danone" الذي أُطلق في 2022 بناء النمو (+4.5% نمو comparable في 2025)، وأعاد تشكيل المحفظة (الخروج من روسيا؛ والاستحواذ على Kate Farms وThe Akkermansia Company)، وتوّج في نوفمبر 2025 بأن أصبحت Danone <strong>أكبر شركة أغذية B Corp في العالم</strong> — حوالي 9% من إجمالي القوى العاملة العالمية لـ B Corp تعمل الآن لدى Danone.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span class="num">€27.4B</span><span class="lbl">إيرادات 2024</span></div>
+    <div class="stat-card"><span class="num">~90K</span><span class="lbl">موظف</span></div>
+    <div class="stat-card"><span class="num">120+</span><span class="lbl">دولة</span></div>
+    <div class="stat-card"><span class="num">18.5%</span><span class="lbl">حصة الزبادي عالمياً</span></div>
+    <div class="stat-card"><span class="num">~200</span><span class="lbl">كيان B Corp</span></div>
+    <div class="stat-card"><span class="num">+4.5%</span><span class="lbl">نمو comparable 2025</span></div>
+  </div>
+
+  <p style="margin-top:1.5rem">في مصر، تعمل Danone منذ 2006 من مصنعها في مدينة العبور (40,000 م²، طاقة ~120,000 طن/سنة)، بعلامات تجارية تشمل الزبادي (Activia، Danio، Danonino)، الحلويات اللبنية (Danette)، الزبادي المشروب (Activia Rayeb)، وتغذية الرضع (Aptamil، Bebelac). بلغ سوق الألبان المصري 2.59 مليار دولار في 2025 وتهيمن عليه جهينة، التي نمت إيرادات النصف الأول 2025 بنسبة +23% إلى 293.5 مليون دولار.</p>
+
+  <p>خمس مشاكل تسويقية تحدد أجندة Danone مصر لعام 2026: (1) صدمات تكلفة المدخلات المستوردة من تعويم مارس 2024؛ (2) ميزة حجم جهينة في قناة البقالة؛ (3) فجوة تثقيف المستهلك حول الألبان الوظيفية والنباتية؛ (4) الزخم الإقليمي لتنظيم السكر الذي يكشف Danette؛ و (5) محدودية وصول سلسلة التبريد خارج القاهرة الكبرى والإسكندرية. يتم معالجة كل منها أدناه باستخدام الإطار التسويقي الذي تم تدريسه في المقرر — SWOT، STP، المفهوم التسويقي، و 4 Ps مع العميل في المركز.</p>
+</section>
+
+<!-- ═══════════ 1. COMPANY INTRODUCTION ═══════════ -->
+<section id="intro">
+  <h2>١. مقدمة عن الشركة</h2>
+  <p class="section-intro">من صيدلية في برشلونة إلى مجلس إدارة في باريس — رحلة المئة عام للسيطرة العالمية على الزبادي.</p>
+
+  <h3>١.١ مجموعة Danone — قصة النشأة</h3>
+  <p>تأسست Danone في <strong>برشلونة عام 1919</strong> على يد Isaac Carasso، الطبيب اليهودي السفاردي المولود في سالونيك والذي ألهمته أبحاث Ilya Mechnikov حول بكتيريا حمض اللاكتيك في Institut Pasteur. اسم العلامة التجارية "Danone" هو تصغير كتالوني لاسم ابنه Daniel — حرفياً "دانيال الصغير". في البداية، وزّع Carasso الزبادي <em>من خلال الصيدليات كمنتج طبي</em>، حيث كان الزبادي غير معروف تقريباً في أوروبا الغربية آنذاك. نعم: فطورك كان يوماً ما بوصفة طبية فقط.</p>
+
+  <div class="timeline">
+    <div class="timeline-item"><span class="year">1919</span><p>Isaac Carasso يؤسس Danone في برشلونة. الزبادي يباع في الصيدليات كدواء.</p></div>
+    <div class="timeline-item"><span class="year">1929</span><p>ينتقل Carasso إلى فرنسا، ويفتح مصنعاً في باريس. العلامة تصبح فرنسية.</p></div>
+    <div class="timeline-item"><span class="year">1972</span><p>Antoine Riboud يلقي "خطاب مرسيليا" الشهير — "جلب الصحة من خلال الغذاء لأكبر عدد ممكن من الناس."</p></div>
+    <div class="timeline-item"><span class="year">2007</span><p>الاستحواذ على Numico (12.3 مليار يورو) — Danone تصبح قوة في تغذية الرضع والتغذية الطبية.</p></div>
+    <div class="timeline-item"><span class="year">2017</span><p>الاستحواذ على WhiteWave (Alpro، Silk) — الألبان النباتية تدخل التيار الرئيسي داخل Danone.</p></div>
+    <div class="timeline-item"><span class="year">2021</span><p>Antoine de Saint-Affrique يتولى منصب المدير التنفيذي. "Renew Danone" تبدأ.</p></div>
+    <div class="timeline-item"><span class="year">2022</span><p>الإعلان عن الخروج من روسيا (خسارة 1.2 مليار يورو). إطلاق استراتيجية Renew Danone: طموح نمو comparable 3–5%.</p></div>
+    <div class="timeline-item"><span class="year">2024</span><p>إتمام بيع أعمال EDP في روسيا (مايو). 2024: إيرادات 27.4 مليار يورو، صافي الدخل 2.02 مليار يورو (مقابل 0.88 مليار يورو في 2023).</p></div>
+    <div class="timeline-item"><span class="year">2025</span><p>الفصل الثاني من Renew: إعادة تنظيم EMEA/APAC/Americas. استحواذ Kate Farms + Akkermansia. <strong>نوفمبر: شهادة B Corp العالمية الكاملة — أول شركة أغذية متعددة الجنسيات كبرى في التاريخ.</strong> 2025: +4.5% نمو comparable.</p></div>
+  </div>
+
+  <p>اليوم، يقع المقر الرئيسي لـ Danone في باريس، وهي مدرجة في بورصة Euronext Paris تحت الرمز <strong>BN.PA</strong>، وتوظف ~90,000 شخص، وتعمل في أكثر من 120 دولة. تقدم تقاريرها تحت ثلاثة قطاعات أعمال:</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span class="num">€13.46B</span><span class="lbl">الألبان الأساسية والنباتية (EDP) — 49% من الإيرادات. Activia، Actimel، Danone، Danette، Danio، Alpro، Silk، Oikos.</span></div>
+    <div class="stat-card"><span class="num">€8.94B</span><span class="lbl">التغذية المتخصصة — 33% من الإيرادات. Aptamil، Nutricia، Nutrilon، Neocate (تغذية طبية).</span></div>
+    <div class="stat-card"><span class="num">€4.98B</span><span class="lbl">المياه — 18% من الإيرادات. Evian، Volvic، Aqua، Bonafont.</span></div>
+  </div>
+
+  <div class="fun-fact">
+    <span class="icon">🤯</span>
+    <p><strong>هل تعلم؟</strong> أصبحت Danone أكبر شركة أغذية B Corp في العالم في <strong>نوفمبر 2025</strong> — بالكاد قبل 5 أشهر. أكثر من 200 كيان قانوني في 60+ دولة. موظفو Danone يمثلون الآن حوالي <strong>9% من إجمالي حركة B Corp العالمية</strong>. هذا ليس مجرد تفاخر — إنه خندق. لا يمكن لأي منافس تكرار هذا بين عشية وضحاها.</p>
+  </div>
+
+  <h3>١.٢ Danone في مصر</h3>
+  <p>دخلت Danone مصر في <strong>2006</strong> بالاستحواذ على مصنع مدينة العبور، الواقع في المنطقة الصناعية بالعبور <strong>شرق القاهرة</strong> — وليس مدينة 6 أكتوبر، كما يُذكر خطأً أحياناً. (حتى ملخص Ahmed الأصلي كان مخطئاً في هذا. الإنترنت مليء بخرائط منافسين قديمة — تحقق قبل أن ترتفع شريحتك.)</p>
+
+  <p>يمتد مصنع العبور على 40,000 م²، ويدير 8–9 خطوط إنتاج، وبطاقة سنوية تقارب 120,000 طن من الألبان والزبادي للسوق المحلي <em>بالإضافة إلى الصادرات إلى ليبيا وموريشيوس وكينيا</em>. تدير Danone مصر أيضاً مزرعة ألبان في النوبارية (~154 فداناً)، توصف بأنها ثاني أو ثالث أكبر مزرعة في البلاد. الاستثمار التراكمي في مصر يتجاوز <strong>2 مليار جنيه مصري</strong> (رقم ما قبل تعويم 2024)، وتضاعفت الصادرات (+112%) في 2023.</p>
+
+  <div class="seg-grid">
+    <div class="seg-card"><h4>الزبادي</h4><p>Activia، Danio، Danonino، Danone Plain</p></div>
+    <div class="seg-card"><h4>الزبادي المشروب</h4><p>Activia Rayeb (عبوات 220g و 400g)</p></div>
+    <div class="seg-card"><h4>الحلويات اللبنية</h4><p>Danette، Dango</p></div>
+    <div class="seg-card"><h4>تغذية الرضع</h4><p>Aptamil، Bebelac</p></div>
+  </div>
+
+  <p>كانت Danone مصر <strong>أول شركة في مصر تحصل على شهادة B Corp</strong> (2019) وتدير برنامجين ريفيين رئيسيين: <strong>"جودة"</strong> (شاحنات مبردة لجمع الألبان لصغار المزارعين) و <strong>"عمدة"</strong> (تأثير مجتمعي ريفي، انضمت إليه Bel مصر في 2024–2025).</p>
+</section>
+
+<!-- ═══════════ 2. VISION, MISSION, VALUES ═══════════ -->
+<section id="vision">
+  <h2>٢. الرؤية والرسالة والقيم</h2>
+  <p class="section-intro">أو: كيف أعادت شركة ألبان تسمية نفسها كمؤسسة صحة عامة.</p>
+
+  <p>بيان غرض Danone — <strong>"جلب الصحة من خلال الغذاء لأكبر عدد ممكن من الناس"</strong> — يوجه المجموعة منذ 1972، ويتم تفعيله من خلال إطار <strong>"كوكب واحد. صحة واحدة."</strong> الذي أُطلق في 2017. هذا مثال كتابي لما يسميه د. عادل <em>تعريف العمل من منظور السوق</em>: Danone في مجال <strong>الصحة والرفاهية من خلال التغذية</strong>، وليس مجرد في مجال إنتاج الألبان. (تماماً كما أن Toyota في النقل، وليس السيارات؛ وDisney في الترفيه، وليس المتنزهات.)</p>
+
+  <h3>الالتزامات الرئيسية للاستدامة 2030</h3>
+  <div class="stat-grid">
+    <div class="stat-card"><span class="num">−50%</span><span class="lbl">خفض كثافة الكربون بحلول 2030 (Scope 1+2+3)</span></div>
+    <div class="stat-card"><span class="num">100%</span><span class="lbl">كهرباء متجددة بحلول 2030</span></div>
+    <div class="stat-card"><span class="num">100%</span><span class="lbl">تغليف قابل لإعادة التدوير أو إعادة الاستخدام أو التحلل</span></div>
+    <div class="stat-card"><span class="num">صافي صفر</span><span class="lbl">سلسلة القيمة الكاملة (بما في ذلك Scope 3 الزراعة) بحلول 2050</span></div>
+  </div>
+
+  <p>قيادة خفض الميثان في الألبان وتطبيق الزراعة التجديدية مع المزارعين الشركاء يكملان الأجندة. بالنسبة لإطار التسويق في ماجستير إدارة الأعمال، شهادة B Corp هي أكثر من مجرد شارة مسؤولية اجتماعية: إنها النقلة الصريحة من توجه "التسويق" إلى <strong>توجه "التسويق المجتمعي"</strong> الذي تم تدريسه في المقرر — موازنة رغبات المستهلك، ومتطلبات الشركة، <em>ومصالح المجتمع طويلة المدى</em>.</p>
+</section>
+
+<!-- ═══════════ 3. INDUSTRY & MARKET CONTEXT ═══════════ -->
+<section id="market">
+  <h2>٣. سياق الصناعة والسوق</h2>
+  <p class="section-intro">ممر الزبادي العالمي ساحة معركة بقيمة ~144 مليار دولار، وسوق الألبان المصري حلبة بقيمة 2.59 مليار دولار حيث تعيد صدمات العملة كتابة القواعد كل صباح.</p>
+
+  <h3>٣.١ سوق الألبان والزبادي العالمي</h3>
+  <p>قُدّر سوق الزبادي العالمي بحوالي <strong>144.3 مليار دولار في 2025</strong> ومن المتوقع أن ينمو بمعدل ~5.4% CAGR إلى ~245 مليار دولار بحلول 2035. يظل الزبادي التقليدي/المقلب أكبر قطاع فرعي (~39% حصة). استحوذ الخمسة الكبار عالمياً مجتمعين على 52.7% من حصة السوق في 2025:</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span class="num">#1</span><span class="lbl">Danone S.A. — ~18.5% حصة (ارتفاعاً من ~14% في 2024)</span></div>
+    <div class="stat-card"><span class="num">#2</span><span class="lbl">Lactalis (فرنسا، خاصة)</span></div>
+    <div class="stat-card"><span class="num">#3</span><span class="lbl">Nestlé S.A. (سويسرا)</span></div>
+    <div class="stat-card"><span class="num">#4</span><span class="lbl">China Mengniu Dairy — ~11% حصة</span></div>
+    <div class="stat-card"><span class="num">#5</span><span class="lbl">Inner Mongolia Yili (الصين)</span></div>
+  </div>
+
+  <p>محركات الطلب المهيمنة هي <strong>الزبادي الوظيفي والبروبيوتيك</strong> (Activia هي الرائد)، <strong>الزبادي عالي البروتين على الطريقة اليونانية وHiPro</strong>، <strong>الألبان النباتية</strong> (Alpro، Silk)، و<strong>صحة الأمعاء والميكروبيوم</strong> — الأخير معزز باستحواذ Danone على The Akkermansia Company في 2025.</p>
+
+  <h3>٣.٢ سوق الألبان المصري</h3>
+  <p>بلغ سوق منتجات الألبان والبيض المصري حوالي <strong>2.59 مليار دولار في 2025</strong>، مع نمو حجمي ~2.3%. استهلاك الألبان للفرد ~51.4 كجم/شخص/سنة، مع الحليب تحديداً عند ~22.1 كجم/شخص/سنة — أقل بكثير من المعايير الأوروبية أو الخليجية، مما يشير إلى مجال نمو هيكلي.</p>
+
+  <p>يتم تنظيم السوق من قبل <strong>الهيئة القومية لسلامة الغذاء (NFSA)</strong>، التي أنشئت في 2017. قرار NFSA رقم 6/2020 يحكم تراخيص استيراد الغذاء؛ تتطلب واردات الألبان شهادات بيطرية، وتسجيل الشركة المصنعة الأجنبية، وشهادة حلال، وتفتيش ما قبل الشحن، ووسم باللغة العربية.</p>
+
+  <div class="fun-fact">
+    <span class="icon">💸</span>
+    <p><strong>تعويم مارس 2024 للجنيه المصري — زلزال اقتصادي في يوم واحد:</strong> في 6 مارس 2024، عوّم البنك المركزي المصري الجنيه، مسبباً انخفاضاً في يوم واحد بنسبة <strong>38%</strong> تقريباً — تحرك السعر الرسمي من ~30.9 جنيه/دولار إلى ~50 جنيه/دولار. في نفس اليوم، رفع البنك المركزي أسعار الفائدة 600 نقطة أساس إلى 27.75%. بلغ التضخم الرئيسي 29.8%؛ وبلغ تضخم الغذاء ذروته عند <strong>47%</strong>. تم فتح حزمة دعم IMF/EU بقيمة ~8 مليار دولار في وقت واحد. تقلصت هوامش السلع الاستهلاكية سريعة الدوران عبر القطاع، مسرّعة صعود تجار التجزئة المخفضين (كازيون، BIM) على حساب السلاسل المتميزة. <strong>كل كيس حليب بودرة مستورد وكل شحنة راتنج تغليف تشتريها Danone أصبحت الآن ~38% أكثر تكلفة بالجنيه المصري.</strong></p>
+  </div>
+</section>
+
+<!-- ═══════════ 4. SWOT ═══════════ -->
+<section id="swot">
+  <h2>٤. تحليل SWOT</h2>
+  <p class="section-intro">الإطار الإلزامي لأي خطة استراتيجية طويلة المدى، حسب د. عادل. داخلي (نقاط القوة، نقاط الضعف) مقابل خارجي (الفرص، التهديدات). نقاط القوة التي لا يستطيع المنافسون نسخها بسهولة = كفاءات مميزة = ميزة تنافسية مستدامة.</p>
+
+  <div class="swot-grid">
+    <div class="cell swot-s">
+      <h4>🟢 نقاط القوة (داخلية)</h4>
+      <ul>
+        <li>رقم 1 عالمياً في الزبادي بحصة ~18.5% — <strong>كفاءة مميزة</strong></li>
+        <li>Activia — علامة وظيفية/بروبيوتيك أيقونية؛ HiPro/Oikos/Danio ترسخ ريادة البروتين العالي</li>
+        <li>أكبر شركة أغذية B Corp في العالم — الاستدامة <strong>كميزة تنافسية مستدامة</strong></li>
+        <li>متنوعة عبر EDP، التغذية المتخصصة (هامش مرتفع)، والمياه</li>
+        <li>إرث البحث والتطوير من Institut Pasteur + منصة Akkermansia للميكروبيوم — <strong>كفاءة مميزة</strong></li>
+        <li>2024: إيرادات 27.4 مليار يورو، هامش EBIT متكرر 13.0%، تدفق نقدي حر 3.0 مليار يورو</li>
+      </ul>
+    </div>
+    <div class="cell swot-w">
+      <h4>🔴 نقاط الضعف (داخلية)</h4>
+      <ul>
+        <li>تسعير متميز في الأسواق الناشئة الحساسة للسعر حيث تهيمن وحدات SKU القيمية لجهينة</li>
+        <li>تعرض كبير لتقلب أسعار الحليب البودرة المستورد وصدمات التكلفة المقومة بالجنيه</li>
+        <li>نمو comparable لقطاع EDP +3.8% (2024) متخلف عن التغذية المتخصصة (+4.6%) والمياه (+5.1%)</li>
+        <li>بصمة رقمية / DTC أبطأ مقابل الشركات الناشئة المنافسة في تخصصات التغذية الوظيفية</li>
+        <li>عبء سمعة متبقي من الخروج من روسيا (خسارة 1.2 مليار يورو) وضوضاء المقاطعة في MENA</li>
+      </ul>
+    </div>
+    <div class="cell swot-o">
+      <h4>🔵 الفرص (خارجية)</h4>
+      <ul>
+        <li>نمو فئة البروبيوتيك والوظيفية والميكروبيوم المعوي</li>
+        <li>الألبان النباتية وعالية البروتين في MENA — أقل اختراقاً مقابل أوروبا</li>
+        <li>انفجار التجارة الإلكترونية/q-commerce في مصر — طلبات مارت، Rabbit، Breadfast</li>
+        <li>التغذية المتخصصة (الرضع + الطبية) في ديموغرافية مصر الشابة</li>
+        <li>برامج التوريد المحلي (جودة، عمدة) تقلل التعرض للجنيه وتبني حسن النية التنظيمي</li>
+      </ul>
+    </div>
+    <div class="cell swot-t">
+      <h4>🟠 التهديدات (خارجية)</h4>
+      <ul>
+        <li>تعويم الجنيه (−38%) ورفع الفائدة 600 نقطة أساس يسحقان اقتصاديات المدخلات المستوردة</li>
+        <li>حجم جهينة، وحدات SKU المقاتلة سعرياً، وزيادات الأسعار 30% تمتص الحصة</li>
+        <li>تدقيق الصحة العامة / محتوى السكر على الحلويات اللبنية (Danette)</li>
+        <li>حملات المقاطعة BDS / بقيادة المستهلك التي تؤثر على السلع الغربية سريعة الدوران في MENA</li>
+        <li>خطر المناخ والإجهاد المائي على الزراعة المصرية</li>
+        <li>تجار التجزئة المخفضين (كازيون، BIM) يحولون نقاط سعر العلامات المتميزة إلى سلع</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="swot-post">
+    <h4>أسئلة ما بعد SWOT (حسب إطار المحاضرة)</h4>
+    <ol>
+      <li><strong>أي نقاط القوة هي كفاءات مميزة تتوافق مع متطلبات نجاح السوق المصري؟</strong> → البحث والتطوير (الملكية الفكرية للبروبيوتيك)، قيمة علامة B Corp العالمية، وإرث التجارب السريرية لـ Activia. الثلاثة صعبة النسخ وتتوافق مع ما يطلبه المستهلك المصري الواعي صحياً بشكل متزايد.</li>
+      <li><strong>أي نقاط الضعف تستبعد Danone من فرص معينة؟</strong> → التسعير المتميز يستبعد Danone من شريحة البقالة ذات الخصم العميق حيث تسيطر جهينة. عبء السمعة من روسيا/BDS يعقد قصة B Corp في MENA.</li>
+      <li><strong>هل يظهر نمط؟</strong> → نعم: البحث والتطوير في الألبان الوظيفية + قاعدة مستهلكين مصريين شباب ومتحضرين = تحويل كتابي للفرصة البيئية إلى فرصة تنظيمية — شريطة أن تتمكن Danone من حل معادلتي إمكانية الوصول السعري وسلسلة التبريد.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═══════════ 5. STP ═══════════ -->
+<section id="stp">
+  <h2>٥. التجزئة والاستهداف والتموضع (STP)</h2>
+  <p class="section-intro">كما يقول د. عادل: "كفاءة المسوق تحكم عليها من خلال كيفية قيامه بالتجزئة." تقوم Danone مصر بتجزئة سوق غير متجانس — أسر التيار الرئيسي الحساسة للسعر، وطبقة وسطى حضرية طموحة، وشريحة أصغر واعية صحياً وميسورة — إلى أهداف متجانسة، ثم تضع علامات مميزة مقابل كل منها.</p>
+
+  <h3>٥.١ أسس التجزئة</h3>
+  <div class="seg-grid">
+    <div class="seg-card">
+      <h4>جغرافي</h4>
+      <p>تتركز في القاهرة الكبرى والإسكندرية والمراكز الحضرية في الدلتا. أضعف في صعيد مصر — فجوة ترتبط مباشرة بحدود سلسلة التبريد. الصادرات من العبور تستهدف ليبيا وموريشيوس وكينيا.</p>
+    </div>
+    <div class="seg-card">
+      <h4>ديموغرافي</h4>
+      <p>أساس د. عادل "الأكثر استخداماً". علامات مميزة عبر دورة حياة الأسرة: Danonino (الأطفال الصغار)، Activia & Danio (النساء البالغات — صحة الجهاز الهضمي / إدارة الوزن)، HiPro (البالغين النشطين)، Aptamil/Bebelac (الرضع). تجزئة الدخل مضافة فوق ذلك.</p>
+    </div>
+    <div class="seg-card">
+      <h4>سيكوغرافي</h4>
+      <p>مدفوع بنمط الحياة: المستهلكين الواعين صحياً (Activia، Danio)، المستهلكين النشطين/الرياضيين (HiPro)، والمستهلكين المدركين للاستدامة (قصة B Corp).</p>
+    </div>
+    <div class="seg-card">
+      <h4>سلوكي</h4>
+      <p>كل أبعاد المحاضرة الأربعة: <strong>المناسبات</strong> (Danette & Rayeb = وجبة خفيفة/أثناء التنقل)، <strong>الفوائد المطلوبة</strong> (Activia = الهضم، Danio = البروتين، Danonino = نمو الأطفال، Aptamil = تغذية الرضع)، <strong>حالة المستخدم</strong> (المشترون المتكررون = الشريحة الأعلى قيمة)، <strong>الولاء</strong> — لكن تذكر: <em>الرضا ≠ الولاء</em>. تكاليف التحول في الألبان منخفضة.</p>
+    </div>
+  </div>
+
+  <h3>٥.٢ استراتيجية الاستهداف</h3>
+  <p>تمارس Danone مصر <strong>الاستهداف المتمايز</strong> — حزم منتجات-علامات مميزة لشرائح منفصلة — مع <strong>طبقة مركزة</strong> في التغذية المتخصصة (Aptamil/Bebelac هي أساساً عرض متخصص، متميز، بقيادة صحية لآباء الرضع). بمفردات د. عادل: <em>niche = شريحة صغيرة</em>.</p>
+  <p>عبر عوامل اختيار الاستهداف الخمسة (موارد الشركة، تنوع المنتج، مرحلة دورة الحياة، تنوع السوق، سلوك المنافس): البحث والتطوير العميق لـ Danone والموارد العالمية الكبيرة تبرر الموقف المتمايز، بينما تنوع احتياجات المستهلكين في الألبان يجعل المقاس الواحد للجميع (غير المتمايز) غير قابل للتطبيق.</p>
+
+  <h3>٥.٣ التموضع</h3>
+  <p>باتباع قالب الشرائح — "إلى (الشريحة المستهدفة والحاجة) علامتنا (هي) مفهوم (أن) نقطة الاختلاف":</p>
+
+  <div class="seg-grid">
+    <div class="seg-card">
+      <h4>Activia</h4>
+      <p>إلى النساء البالغات الواعيات صحياً اللواتي يبحثن عن راحة هضمية يومية، Activia هو زبادي بروبيوتيك يومي <strong>يثبت علمياً النتائج في 14 يوماً</strong>.</p>
+    </div>
+    <div class="seg-card">
+      <h4>Danio</h4>
+      <p>إلى البالغين النشطين الذين يبحثون عن الشبع مع الجودة، Danio هو زبادي عالي البروتين على الطريقة اليونانية يقدم <strong>حتى 12g من البروتين لكل حصة</strong>.</p>
+    </div>
+    <div class="seg-card">
+      <h4>Danonino</h4>
+      <p>إلى الأمهات اللواتي يبحثن عن وجبات خفيفة ممتعة لكن مغذية للأطفال الصغار، Danonino هو زبادي صغير مدعم بالكالسيوم والفيتامينات <strong>يدعم النمو</strong>.</p>
+    </div>
+    <div class="seg-card">
+      <h4>Aptamil / Bebelac</h4>
+      <p>إلى الآباء الذين يبحثون عن أقرب بديل ممكن لحليب الأم، Aptamil هو تغذية رضع مصاغة علمياً <strong>موثوقة من قبل أطباء الأطفال عالمياً</strong>.</p>
+    </div>
+    <div class="seg-card">
+      <h4>Danette</h4>
+      <p>إلى العائلات التي تبحث عن متعة ميسورة في المنزل، Danette هو بودنغ شوكولاتة أو فانيليا كريمي يقدم <strong>حلوى بأسلوب الكافيه بأسعار السوبرماركت</strong>.</p>
+    </div>
+  </div>
+
+  <div class="fun-fact">
+    <span class="icon">🧠</span>
+    <p><strong>تنبيه فخ الامتحان:</strong> المحاضرة تحذر صراحة: <strong>التمييز ≠ التموضع</strong>. التمييز هو الميزة <em>الحقيقية</em> (سلالة البروبيوتيك L. casei DN-114 001 في Activia؛ التجارب السريرية لـ Aptamil). التموضع هو <em>زرع</em> تلك الميزة في ذهن المستهلك — <strong>المكانة الذهنية المميزة</strong>. لا تخلط بين الاثنين في الامتحان.</p>
+  </div>
+</section>
+
+<!-- ═══════════ 6. MARKETING OBJECTIVES ═══════════ -->
+<section id="objectives">
+  <h2>٦. الأهداف التسويقية</h2>
+  <p class="section-intro">ليس SMART (لم يستخدم الدكتور SMART أبداً في المحاضرات). بدلاً من ذلك: تقسيم ثلاثي الفئات — إنتاجي، مالي، تسويقي — مع ربط كل هدف بخلية Ansoff.</p>
+
+  <p>أهداف Danone التسويقية في مصر لعام 2026:</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span class="num">+5%</span><span class="lbl">تنمية صافي المبيعات المصرية بنمو comparable أحادي متوسط مع حماية الهامش ضد تقلب الجنيه</span></div>
+    <div class="stat-card"><span class="num">+2pp</span><span class="lbl">رفع حصة Activia في قطاع البروبيوتيك/الوظيفي من خلال حملات التثقيف وابتكار العبوات</span></div>
+    <div class="stat-card"><span class="num">2×</span><span class="lbl">مضاعفة معدل تجربة Danio في التجارة الحديثة عبر اتجاه البروتين العالي العالمي</span></div>
+    <div class="stat-card"><span class="num">أعلى 3</span><span class="lbl">تحقيق حصة ضمن أعلى 3 لـ Aptamil/Bebelac في تغذية الرضع المصرية</span></div>
+    <div class="stat-card"><span class="num">25%</span><span class="lbl">جلب 25% من مبيعات مصر 2026 عبر قنوات التجارة الإلكترونية وq-commerce</span></div>
+    <div class="stat-card"><span class="num">+10pp</span><span class="lbl">تعميق التوريد المحلي عبر جودة — إضافة 10 نقاط مئوية من محتوى الحليب المحلي لتقليل التعرض للعملة الأجنبية</span></div>
+  </div>
+
+  <p style="margin-top:1.5rem"><strong>ربط Ansoff:</strong> نمو حصة Activia وDanio = <strong>اختراق السوق</strong> (منتجات موجودة، أسواق موجودة). تثقيف فئة Danio = <strong>تطوير المنتج</strong> (ترويج جديد لمنتج موجود). توسع التجارة الإلكترونية = <strong>تطوير السوق</strong> (منتجات موجودة، قناة جديدة). طموح أعلى 3 لـ Aptamil = <strong>تطوير المنتج + اختراق السوق</strong> مجتمعين.</p>
+</section>
+
+<!-- ═══════════ 7. MARKETING MIX — 4 Ps ═══════════ -->
+<section id="mix">
+  <h2>٧. المزيج التسويقي — 4 Ps</h2>
+  <p class="section-intro">حسب المحاضرة: العميل يجلس في مركز المزيج التسويقي. كل P تصمم من الداخل إلى الخارج من دراسة السوق، وليس من الخارج إلى الداخل من خط الإنتاج. "العميل هو الملك."</p>
+
+  <div class="ps-grid">
+    <div class="p-card">
+      <h4>المنتج</h4>
+      <p>يمتد عبر الزبادي (Danone plain، Activia، Danio، Danonino)، الحلويات اللبنية (Danette، Dango)، الزبادي المشروب (Activia Rayeb 220g & 400g)، والتغذية المتخصصة/الرضع (Aptamil، Bebelac). يوضح أنماط تطوير المنتج الثلاثة من المحاضرة:</p>
+      <ul style="font-size:.9rem;margin-top:.5rem;padding-right:1.2rem">
+        <li><strong>ابتكار المنتج:</strong> Akkermansia biotics (عالمي)</li>
+        <li><strong>تحسين المنتج:</strong> إعادة صياغة Activia المستمرة</li>
+        <li><strong>امتداد الخط:</strong> عبوات Activia المتعددة 6×100g، Activia Light 120g</li>
+      </ul>
+      <p style="margin-top:.5rem">العلامة التجارية أصل استراتيجي — قيمة العلامة التجارية تجلس في الميزانية العمومية بالمليارات. التغليف إشارة جودة (صيغ العبوات المتعددة، زجاجات Rayeb الشفافة).</p>
+    </div>
+    <div class="p-card">
+      <h4>السعر</h4>
+      <p>استراتيجية درجة متميزة عبر الزبادي الوظيفي (Activia)، عالي البروتين (Danio)، والتغذية المتخصصة (Aptamil)، بتعادل أو تميز مقابل Lamar/Beyti وبوضوح فوق وحدات SKU لجهينة للزبادي العادي.</p>
+      <p style="margin-top:.5rem">بعد تعويم مارس 2024، دفعت جهينة زيادات أسعار ~30%. يجب على Danone اتباع مسار مماثل مع مراقبة المرونة: في سوق بلغ فيه تضخم الغذاء ذروته عند 47%، كل جنيه من السعر = خطر حجمي فوري.</p>
+      <p style="margin-top:.5rem">النقاط الفرعية للمحاضرة: سعر القائمة (متميز للوظيفي، قيمة للعادي)، الخصومات (عروض التجارة الحديثة)، وتسهيلات الدفع — ائتمان تجاري للموزعين.</p>
+    </div>
+    <div class="p-card">
+      <h4>المكان</h4>
+      <p>ثلاث دوائر توزيع متحدة المركز:</p>
+      <ul style="font-size:.9rem;margin-top:.5rem;padding-right:1.2rem">
+        <li><strong>التجارة الحديثة</strong> (أعلى هامش): كارفور مصر، Spinneys، جورميه، سعودي، خير زمان، مترو ماركت</li>
+        <li><strong>التجارة التقليدية</strong> (أعلى حجم): 400,000+ منفذ بقالة — مهيمنة بعدد المعاملات، لكنها الأصعب للألبان المتميزة (حدود سلسلة التبريد)</li>
+        <li><strong>التجارة الإلكترونية / Q-commerce</strong> (الأسرع نمواً): طلبات مارت + Spinneys (14 متجراً عبر الشيخ زايد، 6 أكتوبر، القاهرة الجديدة، المعادي، المقطم، مدينة نصر، الشروق، الإسكندرية)، Rabbit (توصيل فائق المحلية أقل من 20 دقيقة)، Breadfast (اشتراك)، تطبيق كارفور</li>
+      </ul>
+    </div>
+    <div class="p-card">
+      <h4>الترويج</h4>
+      <p>جميع أدوات المحاضرة الخمس قيد الاستخدام:</p>
+      <ul style="font-size:.9rem;margin-top:.5rem;padding-right:1.2rem">
+        <li><strong>الإعلان:</strong> تلفزيون + خارجي للعلامات الأيقونية</li>
+        <li><strong>ترويج المبيعات:</strong> تسعير العبوات المتعددة، عينات تجريبية</li>
+        <li><strong>العلاقات العامة:</strong> برامج جودة وعمدة الريفية + قصة B Corp العالمية</li>
+        <li><strong>البيع الشخصي:</strong> قوة التفصيل الطبي لـ Aptamil/Bebelac (أطباء الأطفال والصيدليات)</li>
+        <li><strong>التسويق المباشر:</strong> رقمي + تطبيقات q-commerce</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. MARKETING PROBLEMS & SOLUTIONS ═══════════ -->
+<section id="problems">
+  <h2>٨. المشاكل التسويقية — وكيفية حلها</h2>
+  <p class="section-intro">خمس مشاكل حقيقية تواجهها Danone مصر الآن. كل منها مشخص بلغة المحاضرة (البيئة الخارجية / SWOT / 4 Ps) ومجاب عليه بحلول ملموسة متجذرة في نفس الأطر.</p>
+
+  <div class="problem-card">
+    <h4>المشكلة ١: تعويم الجنيه — عندما تقفز تكاليفك 38% بين ليلة وضحاها</h4>
+    <div class="diag"><strong>التشخيص:</strong> مع تعويم الجنيه إلى ~50 جنيه/دولار في مارس 2024 وبلوغ تضخم الغذاء ذروته عند 47%، ارتفعت تكاليف الحليب البودرة وراتنج التغليف والإنفاق الرأسمالي لـ Danone بالجنيه المصري بشكل حاد. استجابت جهينة بزيادات أسعار ~30% — لكن تموضع Danone المتميز يعني أن المستهلكين أكثر حساسية للمرونة. كل جنيه إضافي من السعر يخاطر بفقدان الحجم لصالح المنافسين المحليين.</div>
+    <div class="soln"><strong>الحل (3 رافعات):</strong> (أ) <em>المكان/التوريد:</em> تعميق برنامج جودة للحليب المحلي لرفع نسبة المحتوى المحلي وتقليل التعرض للعملة الصعبة. (ب) <em>المنتج:</em> تقديم أحجام عبوات أصغر وأقل سعراً بالجنيه (أكواب فردية) بحيث تظل الأسعار المطلقة على الرف في متناول النفس. (ج) <em>السعر:</em> ترحيل الزيادات حسب SKU — تحمل العبء على Danio وActivia Light، والثبات على Danonino وActivia Rayeb — وإعادة توقيت عمق العروض الترويجية حول دورات يوم القبض.</div>
+  </div>
+
+  <div class="problem-card">
+    <h4>المشكلة ٢: جهينة — العملاق المحلي</h4>
+    <div class="diag"><strong>التشخيص:</strong> جهينة هي الرائدة المدرجة في السوق (إيرادات النصف الأول 2025 +23% سنوياً إلى 293.5 مليون دولار) مع وصول أعمق للتجارة التقليدية ومحفظة قيمة تتفوق سعرياً على Danone في الزبادي والرايب العاديين. تموضع Danone المتميز يعمل في التجارة الحديثة لكنه يكشف فجوة حصة في قناة البقالة الأكبر بكثير. جهينة لديها كفاءة مميزة — طريق محلي إلى السوق — لا تستطيع Danone نسخه بسرعة.</div>
+    <div class="soln"><strong>الحل (المنافسة غير المتماثلة):</strong> (أ) <em>المكان:</em> الشراكة مع موزعين فرعيين إقليميين لبقالة الدرجة الأولى في مدن دلتا وصعيد مصر المختارة، مدعومة بدعم وضع المبردات. (ب) <em>المنتج:</em> إطلاق SKU قيمة "Danone الأساسية" بحجم مناسب لسلة البقالة — لعبة اختراق سوق بمصطلحات Ansoff. (ج) <em>الترويج:</em> استخدام إعلانات غير متناسبة لـ Activia وDanio في التجارة الحديثة وq-commerce حيث يكسب التموضع المتميز هامشه.</div>
+  </div>
+
+  <div class="problem-card">
+    <h4>المشكلة ٣: "ما هو البروبيوتيك، مرة أخرى؟" — فجوة التثقيف</h4>
+    <div class="diag"><strong>التشخيص:</strong> تتطلب مقترحات صحة الأمعاء لـ Activia والبروتين العالي لـ Danio تثقيفاً مستداماً للمتسوق في سوق حيث الزبادي العادي والرايب مشتريات اعتيادية. الألبان النباتية (Alpro عالمياً) لديها وعي أدنى في MENA. حسب المحاضرة، هذه فرصة بيئية كلاسيكية (احتياجات العملاء المتغيرة) تتطلب كفاءة مميزة للتحويل إلى فرصة تنظيمية.</div>
+    <div class="soln"><strong>الحل (تثقيف منسق):</strong> (أ) <em>الترويج:</em> إطلاق حملة "14 يوماً مع Activia" رقمية وتلفزيونية لإحياء ادعاء Activia السريري الأصلي، مدعومة بشهادات أطباء الأطفال وأطباء الجهاز الهضمي. (ب) <em>المنتج:</em> تجربة Alpro في التجارة الحديثة فقط (استهداف مركز) مع وحدتي SKU لاختبار اقتصاديات تثقيف الفئة. (ج) <em>المكان:</em> الاعتماد على نماذج اشتراكات q-commerce (Breadfast) لتحويل التجربة إلى روتين.</div>
+  </div>
+
+  <div class="problem-card">
+    <h4>المشكلة ٤: تدقيق السكر — Danette تحت المجهر</h4>
+    <div class="diag"><strong>التشخيص:</strong> الحلويات اللبنية مثل Danette تحت تدقيق أبوي وتنظيمي متزايد عبر MENA لمحتوى السكر المضاف. بينما لا يوجد تفويض سكر مصري محدد من NFSA بعد، الزخم الإقليمي (ضريبة السكر في السعودية، وسم واجهة العبوة الإلزامي في الإمارات) يشير إلى أن الضغط يقترب. هذا اختبار تسويق مجتمعي: يجب موازنة مصلحة Danone الاستهلاكية طويلة المدى مع الجاذبية التجارية قصيرة المدى.</div>
+    <div class="soln"><strong>الحل (استباق، لا تنتظر):</strong> (أ) <em>المنتج:</em> إطلاق نسخة Danette مخفضة السكر (امتداد خط) وإعادة صياغة النسخة الأساسية بما يتماشى مع برامج Danone العالمية لإعادة الصياغة. (ب) <em>الترويج:</em> تقديم علاقات عامة اجتماعية بأسلوب جودة/عمدة حول تغذية الطفل (Danonino) بحيث تكون الرواية إيجابية صحياً عندما يشتد النقاش التنظيمي. (ج) <em>السعر:</em> تثبيت Danette المعاد صياغته عند نفس سعر الرف — قبول ضربة تكلفة المدخلات لحماية ثقة الفئة.</div>
+  </div>
+
+  <div class="problem-card">
+    <h4>المشكلة ٥: خارج القاهرة — جغرافية سلسلة التبريد</h4>
+    <div class="diag"><strong>التشخيص:</strong> ~400,000 منفذ بقالة في مصر يهيمنون على السلع سريعة الدوران بعدد المعاملات، لكن قيود سلسلة التبريد وطريق جهينة الراسخ إلى السوق يقيدان Danone خارج القاهرة والإسكندرية ومراكز الدلتا الحضرية. تعالج جودة الجانب العلوي (جمع الحليب)؛ التوزيع المبرد الأدنى يظل نقطة الاختناق.</div>
+    <div class="soln"><strong>الحل (متعدد السنوات، مرحل جغرافياً):</strong> (أ) <em>المكان:</em> الاستثمار في مراكز سلسلة تبريد إقليمية (المنصورة، طنطا، أسيوط) — ربما بتمويل مشترك مع EBRD أو IFC بقروض استدامة نظراً لاعتماد B Corp. (ب) <em>المنتج:</em> إعطاء الأولوية لصيغ UHT أو ذات عمر تخزين أطول للمناطق العليا حيث التبريد غير واقعي. (ج) <em>الترويج:</em> إعلانات إقليمية على قنوات الصعيد/الدلتا وشراكات مع أندية كرة القدم المحلية — أخذ البيئة المحيطة لكل منطقة بجدية بدلاً من تشغيل حملة للقاهرة فقط.</div>
+  </div>
+</section>
+
+<!-- ═══════════ 9. CONCLUSION ═══════════ -->
+<section id="conclusion">
+  <h2>٩. الخاتمة</h2>
+  <p class="section-intro">الشريحة الأخيرة في رأسك.</p>
+
+  <p>Danone هي رائدة فئة عالمية في الزبادي ومنافسة ذات مصداقية في التغذية المتخصصة والمياه، مسلحة حديثاً باعتماد B Corp الذي لا يمكن لأي منافس مضاهاته في المدى القصير. Renew Danone نجحت بشكل واضح: +4.3% نمو comparable في 2024 تلاها +4.5% في 2025، مع توسع الهوامش وارتفاع التدفق النقدي الحر.</p>
+
+  <p>في مصر، الجائزة حقيقية — <strong>سوق ألبان بقيمة 2.59 مليار دولار</strong> مع استهلاك منخفض للفرد وسكان شباب ومتحضرين — لكن العقبات حقيقية بنفس القدر: تعويم 38% في يوم واحد للجنيه أعاد ضبط اقتصاديات التكلفة للجميع في سلسلة القيمة، وستدافع جهينة عن التيار الرئيسي المحلي بالحجم والسعر.</p>
+
+  <p><strong>الوصفة:</strong> دافع عن الموقف المتميز في التجارة الحديثة وq-commerce مع Activia وDanio. قاتل بانتقائية في قناة البقالة مع SKU قيمة. عمّق التوريد المحلي من خلال جودة لامتصاص صدمات العملة الأجنبية. استبق تنظيم السكر على Danette قبل وصوله. وعامل الاستدامة ليس كتمرين اتصالات بل <strong>كتوجه التسويق المجتمعي</strong> من المحاضرة وقد أصبح عملياً.</p>
+
+  <p style="font-size:1.1rem;font-weight:700;color:#003DA5;margin-top:1.5rem">مع العميل في مركز كل قرار ومفهوم تسويقي يدرس السوق قبل أن ينتج، تمتلك Danone مصر المكونات لتحويل الفرصة البيئية الحالية إلى ميزة تنظيمية مستدامة.</p>
+</section>
+
+<!-- ═══════════ REFERENCES ═══════════ -->
+<section id="references">
+  <h2>المراجع</h2>
+  <p class="section-intro">جميع الاستشهادات الـ 40 في النص [n] مدرجة أدناه. تم استرجاع الروابط في 28 أبريل 2026.</p>
+  <ol class="ref-list">
+    <li>Danone — Wikipedia (تاريخ التأسيس). <a href="https://en.wikipedia.org/wiki/Danone" target="_blank">Wikipedia</a></li>
+    <li>تاريخ Danone. <a href="https://www.danone.com/group/about-us/our-history.html" target="_blank">Danone Group</a></li>
+    <li>Danone: نتائج قوية لعام 2024. <a href="https://www.globenewswire.com/news-release/2025/02/26/3032566/0/en/Danone-Strong-FY-2024-results-Entering-the-next-chapter-of-Renew-with-confidence.html" target="_blank">GlobeNewswire</a></li>
+    <li>Antoine de Saint-Affrique — المدير التنفيذي لـ Danone. <a href="https://fr.linkedin.com/in/antoine-de-saint-affrique" target="_blank">LinkedIn</a></li>
+    <li>نتائج قوية لعام 2024 (PDF). <a href="https://www.danone.com/content/dam/corp/global/danonecom/investors/en-all-publications/2025/pressreleases/prdanone260225.pdf" target="_blank">Danone IR</a></li>
+    <li>Danone: 2025 — عام آخر من الأداء القوي. <a href="https://www.globenewswire.com/news-release/2026/02/20/3241691/0/en/DANONE-2025-Another-year-of-strong-delivery.html" target="_blank">GlobeNewswire</a></li>
+    <li>أحجام Danone تتحول إيجابياً في 2024. <a href="https://www.foodbusinessnews.net/articles/27789-danones-volumes-turn-positive-in-2024" target="_blank">Food Business News</a></li>
+    <li>Danone تصبح أكبر B Corp. <a href="https://www.dairyreporter.com/Article/2025/11/25/danone-becomes-the-largest-b-corp/" target="_blank">DairyReporter</a></li>
+    <li>Danone تحقق شهادة B Corp عالمياً. <a href="https://www.danone.com/newsroom/press-releases/b-corp-full-certification.html" target="_blank">Danone Group</a></li>
+    <li>Danone تواجه ضربة 1 مليار يورو مع الخروج من روسيا. <a href="https://www.just-food.com/special-focus/ukraine-crisis/danone-exits-dairy-and-plant-based-russia-business/" target="_blank">Just-Food</a></li>
+    <li>إتمام بيع EDP روسيا (مايو 2024). <a href="https://www.globenewswire.com/news-release/2024/05/17/2884377/0/en/DANONE-Completion-by-Danone-of-the-sale-of-its-EDP-business-in-Russia.html" target="_blank">GlobeNewswire</a></li>
+    <li>#اتركوا_روسيا: Danone أغلقت أعمالها. <a href="https://leave-russia.org/danone" target="_blank">Leave Russia Project</a></li>
+    <li>الألبان الوظيفية عالية البروتين تدفع مبيعات EDP. <a href="https://www.dairyreporter.com/Article/2025/04/27/high-protein-functional-dairy-drives-edp-sales-at-danone-in-q1-2025/" target="_blank">DairyReporter</a></li>
+    <li>Danone تأخذ الاستدامة إلى المستوى التالي. <a href="https://sustainabilitymag.com/company-reports/danone-takes-sustainability-next-level" target="_blank">Sustainability Magazine</a></li>
+    <li>حجم وحصة سوق الزبادي، توقعات 2026–2035. <a href="https://www.gminsights.com/industry-analysis/yogurt-market" target="_blank">Global Market Insights</a></li>
+    <li>Danone مصر — صفحة العلامات التجارية. <a href="https://www.danone.eg/our-brands.html" target="_blank">Danone Egypt</a></li>
+    <li>Danone مصر تتوسع باستثمارات تتجاوز 1 مليار جنيه. <a href="https://www.egypttoday.com/Article/3/110267/Danone-Egypt-Expands-in-the-Market-with-Investments-Exceeding-One" target="_blank">Egypt Today</a></li>
+    <li>Danone مصر — معلومات عنا. <a href="https://www.danone.eg/about-us-new.html" target="_blank">Danone Egypt</a></li>
+    <li>Activia زبادي طبيعي 6×100g. <a href="https://www.carrefouregypt.com/mafegy/en/probiotic-yoghurt/activia-natural-yoghurt100g-5-1/p/259416" target="_blank">Carrefour Egypt</a></li>
+    <li>شراكة طلبات مع Spinneys. <a href="https://www.zawya.com/en/press-release/companies-news/talabat-announces-partnership-with-spinneys-jnpf99ox" target="_blank">Zawya</a></li>
+    <li>كيف تعيد مصر تعريف التسوق عبر الإنترنت. <a href="https://www.zawya.com/en/economy/north-africa/how-egypt-is-redefining-online-shopping-geq8k83m" target="_blank">Zawya</a></li>
+    <li>Danone مصر — ملف B Corporation المعتمد. <a href="https://www.bcorporation.net/en-us/find-a-b-corp/company/danone-egypt/" target="_blank">B Lab Global</a></li>
+    <li>Danone مصر تطلق مشروع جودة. <a href="https://www.zawya.com/en/press-release/companies-news/danone-egypt-launches-gawda-project-cooling-milk-collection-trucks-to-preserve-quality-and-nutritional-value-ns4j4hag" target="_blank">Zawya</a></li>
+    <li>Bel مصر تنضم لمبادرة عمدة من Danone مصر. <a href="https://www.zawya.com/en/press-release/companies-news/bel-egypt-joins-danone-egypts-omda-initiative-to-extend-its-rural-footprint-and-drive-meaningful-community-impact-jke60nvn" target="_blank">Zawya</a></li>
+    <li>سوق منتجات الألبان والبيض في مصر. <a href="https://www.imarcgroup.com/egypt-dairy-products-eggs-market" target="_blank">IMARC Group</a></li>
+    <li>مصر — إنشاء الهيئة القومية لسلامة الغذاء. <a href="https://www.fas.usda.gov/data/egypt-egypt-establishment-national-food-safety-authority" target="_blank">USDA FAS</a></li>
+    <li>قرار NFSA رقم 6/2020 — تراخيص استيراد الغذاء. <a href="https://www.fas.usda.gov/data/egypt-egypts-national-food-safety-authority-decision-no-6-2020-rules-regulating-food-import" target="_blank">USDA FAS</a></li>
+    <li>مصر: خطوات جريئة (تعويم مارس 2024). <a href="https://www.franklinresources.com/articles/2024/emerging-markets/egypt-bold-moves" target="_blank">Franklin Templeton</a></li>
+    <li>الأزمة المالية المصرية 2023–2024. <a href="https://en.wikipedia.org/wiki/2023%E2%80%932024_Egyptian_financial_crisis" target="_blank">Wikipedia</a></li>
+    <li>صدمة التعويم الثالث. <a href="https://eipr.org/en/press/2024/03/shock-3rd-flotation-and-its-impact-social-justice" target="_blank">EIPR</a></li>
+    <li>جهينة للصناعات الغذائية — المستثمرون. <a href="https://www.juhayna.com/investor-home/" target="_blank">Juhayna</a></li>
+    <li>جهينة — إصدار أرباح النصف الأول 2025. <a href="https://www.juhayna.com/app/uploads/2025/11/1755209113_669_788386_1h25earningsreleaseenglish.pdf" target="_blank">Juhayna IR</a></li>
+    <li>إيرادات شركات الغذاء ترتفع مع قرقرة البطون. <a href="https://manassa.news/en/stories/23782" target="_blank">Al Manassa</a></li>
+    <li>مشروع PepsiCo/Almarai المشترك يستحوذ على Beyti (2009). <a href="https://www.pepsico.com/en/newsroom/press-releases/2009/pepsicoalmarai-joint-venture-international-dairy-and-juice-limited-acquires-egyptian-dairy-and-juice-company-beyti" target="_blank">PepsiCo</a></li>
+    <li>Beyti — معلومات عنا. <a href="https://beyti-app.vercel.app/corporate/about-beyti" target="_blank">Beyti</a></li>
+    <li>مشروع PepsiCo/Almarai المشترك يستحوذ على Beyti (تغطية). <a href="https://www.foodingredientsfirst.com/news/pepsicoalmarai-joint-venture-international-dairy-and-juice-limited-acquires-beyti.html" target="_blank">Food Ingredients First</a></li>
+    <li>المراعي تمتلك الآن 100% من Beyti. <a href="https://enterprise.press/stories/2023/02/23/almarai-now-owns-100-of-beyti-97678/" target="_blank">Enterprise Press</a></li>
+    <li>المراعي تستحوذ على حصة 100% في مشروع PepsiCo المشترك. <a href="https://www.just-food.com/news/saudi-arabia-almarai-takes-100-share-in-pepsico-jv-international-dairy-and-juice-limited/" target="_blank">Just-Food</a></li>
+    <li>Danone إندونيسيا تنفي الانتماء لإسرائيل. <a href="https://en.tempo.co/read/1942251/danone-indonesia-denies-affiliation-with-israel-we-support-palestinian-independence" target="_blank">Tempo</a></li>
+    <li>إسرائيل: لماذا لن تحدث مقاطعة العلامات التجارية فرقاً كبيراً. <a href="https://theconversation.com/israel-why-the-brand-boycotts-probably-wont-make-much-difference-217125" target="_blank">The Conversation</a></li>
+  </ol>
+</section>
+
+<footer>
+  <p>بحث Danone التسويقي — مشروع مجموعة ماجستير إدارة الأعمال · د. عادل · أبريل 2026</p>
+  <p style="margin-top:.3rem">مبني من <a href="#">Danone_Marketing_Research.docx</a> · 40 مصدراً موثقاً · جميع الروابط استرجعت 2026-04-28</p>
+</footer>
+
+</div><!-- /#content-ar -->
+
+<!-- Shared UI elements outside language containers -->
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script>
-  // Progress bar
+  // ── Language Toggle ──
+  const contentEn = document.getElementById('content-en');
+  const contentAr = document.getElementById('content-ar');
+  const langToggle = document.getElementById('lang-toggle');
+  const htmlEl = document.documentElement;
+  const backTop = document.getElementById('back-top');
+
+  function setLang(lang) {
+    if (lang === 'ar') {
+      contentEn.style.display = 'none';
+      contentAr.style.display = '';
+      htmlEl.lang = 'ar';
+      htmlEl.dir = 'rtl';
+      langToggle.textContent = 'English';
+      langToggle.classList.add('ar-active');
+    } else {
+      contentEn.style.display = '';
+      contentAr.style.display = 'none';
+      htmlEl.lang = 'en';
+      htmlEl.dir = 'ltr';
+      langToggle.textContent = 'عربي';
+      langToggle.classList.remove('ar-active');
+    }
+    localStorage.setItem('danone-lang', lang);
+    // Re-observe sections for fade-in
+    initObserver();
+  }
+
+  function toggleLang() {
+    const current = htmlEl.lang === 'ar' ? 'en' : 'ar';
+    setLang(current);
+  }
+
+  // Load saved preference on init
+  const saved = localStorage.getItem('danone-lang');
+  if (saved === 'ar') setLang('ar');
+
+  // ── Progress bar ──
   window.addEventListener('scroll',()=>{
     const h=document.documentElement, b=document.body;
     const pct=(h.scrollTop||b.scrollTop)/((h.scrollHeight||b.scrollHeight)-h.clientHeight)*100;
     document.getElementById('progress-bar').style.width=pct+'%';
-    document.getElementById('back-top').style.display=(h.scrollTop||b.scrollTop)>600?'block':'none';
+    backTop.style.display=(h.scrollTop||b.scrollTop)>600?'block':'none';
   });
 
-  // Fade in sections on scroll
-  const observer=new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{if(e.isIntersecting)e.target.style.opacity='1'})
-  },{threshold:.1});
-  document.querySelectorAll('section').forEach(s=>{s.style.opacity='0';s.style.transition='opacity .6s ease';observer.observe(s)});
+  // ── Fade in sections on scroll ──
+  let observer;
+  function initObserver() {
+    if (observer) observer.disconnect();
+    observer = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{if(e.isIntersecting)e.target.style.opacity='1'})
+    },{threshold:.1});
+    document.querySelectorAll('section').forEach(s=>{s.style.opacity='0';s.style.transition='opacity .6s ease';observer.observe(s)});
+  }
+  initObserver();
 </script>
 
 </body>
